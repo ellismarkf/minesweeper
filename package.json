@@ -7,6 +7,7 @@
     "inferno-component": "^3.1.2"
   },
   "devDependencies": {
+    "@types/jest": "^19.2.3",
     "inferno-scripts": "3.0.0"
   },
   "eslintConfig": {
