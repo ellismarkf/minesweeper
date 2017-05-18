@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/jest@^19.2.3":
+  version "19.2.3"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-19.2.3.tgz#61748040e8589a891dfc2ec1d16a2dd74482980e"
+
 abab@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -2608,7 +2612,7 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@3.1.2, inferno-component@^3.0.3:
+inferno-component@^3.0.3, inferno-component@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.1.2.tgz#c31f36a93b16c7649255240271bfcd6478775449"
   dependencies:
@@ -2688,7 +2692,7 @@ inferno-vnode-flags@3.0.0, inferno-vnode-flags@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
 
-inferno@3.1.2, inferno@^3.0.3:
+inferno@3.1.2, inferno@^3.0.3, inferno@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.1.2.tgz#37ae33ef6ed75a05b1a4b7b4b24b99fe0a120b9e"
   dependencies:
