@@ -1,0 +1,86 @@
+.tile {
+  font-family: sans-serif;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+  background-color: #EEE;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile:active {
+  background-color: #CCC;
+}
+
+.swept-tile {
+  font-family: sans-serif;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #CCC;
+}
+
+.swept-tile.m1 {
+  color: blue;
+}
+
+.swept-tile.m2 {
+  color: green;
+}
+
+.swept-tile.m3 {
+  color: red;
+}
+
+.swept-tile.m4 {
+  color: navy;
+}
+
+.swept-tile.m5 {
+  color: maroon;
+}
+
+.swept-tile.m6 {
+  color: teal;
+}
+
+.swept-tile.m7 {
+  color: black;
+}
+
+.swept-tile.m8 {
+  color: #AAA;
+}
+
+.swept-mine {
+  font-family: sans-serif;
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+}
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  overflow: hidden;
+  border-top: 1px solid #BBB;
+  border-left: 1px solid #BBB;
+}
