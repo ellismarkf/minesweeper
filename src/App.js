@@ -1,9 +1,36 @@
-import { version } from 'inferno';
+import { version, linkEvent } from 'inferno';
 import Component from 'inferno-component';
 import Logo from './logo';
 import Minesweeper from './components/Minesweeper';
-import { board, iterativeSweep } from '../lib/minesweeper'
+import { board, iterativeSweep, playing, editing, active, won, lost } from '../lib/minesweeper'
 import './App.css';
+
+const STATE = {
+  ...board(),
+}
+
+function buildBoard(props, event) {
+  return 'hello';
+}
+
+function App2(props) {
+  return (
+    <div className="App">
+      <div className="App-header">
+        <Logo width="80" height="80" />
+        <h2>{`Welcome to Inferno ${version}`}</h2>
+      </div>
+      <p className="App-intro">
+        To get started, edit <code>src/App.js</code> and save to reload.
+      </p>
+      <button onClick={linkEvent(props, buildBoard)}></button>
+      <Minesweeper
+        {...this.state}
+        onTileClick={this.sweep}
+      />
+    </div>
+  )
+}
 
 class App extends Component {
   constructor() {
