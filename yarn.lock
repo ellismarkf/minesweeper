@@ -2612,7 +2612,7 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@^3.0.3, inferno-component@^3.1.2:
+inferno-component@3.1.2, inferno-component@^3.0.3, inferno-component@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.1.2.tgz#c31f36a93b16c7649255240271bfcd6478775449"
   dependencies:
@@ -2636,6 +2636,15 @@ inferno-dev-utils@^2.0.0:
     sockjs-client "1.1.2"
     stack-frame-resolver "0.1.5"
     strip-ansi "3.0.1"
+
+inferno-devtools@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/inferno-devtools/-/inferno-devtools-3.1.2.tgz#b95a1c9d0d56991768b1031b9143d761aab1a552"
+  dependencies:
+    inferno "3.1.2"
+    inferno-component "3.1.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
 
 inferno-scripts@3.0.0:
   version "3.0.0"
