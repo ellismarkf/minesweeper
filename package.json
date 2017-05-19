@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@types/jest": "^19.2.3",
+    "inferno-devtools": "^3.1.2",
     "inferno-scripts": "3.0.0"
   },
   "eslintConfig": {
