@@ -2620,6 +2620,30 @@ inferno-component@3.1.2, inferno-component@^3.0.3, inferno-component@^3.1.2:
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
 
+inferno-component@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.2.2.tgz#fabd6b553d83837a6d9172c41ccb24c123ce10a2"
+  dependencies:
+    inferno "3.2.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-create-class@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/inferno-create-class/-/inferno-create-class-3.2.2.tgz#256daf0168904b18f407e7384671426eaa3b2438"
+  dependencies:
+    inferno-component "3.2.2"
+    inferno-shared "3.1.1"
+
+inferno-create-element@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-3.2.2.tgz#2a9768f5e5ea4ef0e784f6803ed2c2b31e64b593"
+  dependencies:
+    inferno "3.2.2"
+    inferno-component "3.2.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
 inferno-dev-utils@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/inferno-dev-utils/-/inferno-dev-utils-2.0.0.tgz#fa90fa8efd3ab712a1ebcef06f533c245c592cbc"
@@ -2697,6 +2721,16 @@ inferno-shared@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.1.1.tgz#70376e29a56c53f6ba1e942191fe5cb710654f73"
 
+inferno-test-utils@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/inferno-test-utils/-/inferno-test-utils-3.2.2.tgz#2677ad324d650e508bcfe131db3ce33b28caa189"
+  dependencies:
+    inferno "3.2.2"
+    inferno-create-class "3.2.2"
+    inferno-create-element "3.2.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
 inferno-vnode-flags@3.0.0, inferno-vnode-flags@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
@@ -2704,6 +2738,13 @@ inferno-vnode-flags@3.0.0, inferno-vnode-flags@^3.0.0:
 inferno@3.1.2, inferno@^3.0.3, inferno@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.1.2.tgz#37ae33ef6ed75a05b1a4b7b4b24b99fe0a120b9e"
+  dependencies:
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.2.2.tgz#9b5ae54bc18d206acd91c84eae698ef715ebc1fa"
   dependencies:
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
