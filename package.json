@@ -9,7 +9,8 @@
   "devDependencies": {
     "@types/jest": "^19.2.3",
     "inferno-devtools": "^3.1.2",
-    "inferno-scripts": "3.0.0"
+    "inferno-scripts": "3.0.0",
+    "inferno-test-utils": "^3.2.2"
   },
   "eslintConfig": {
     "extends": "inferno-app"
