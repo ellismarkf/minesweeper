@@ -6,14 +6,16 @@ import { board } from './lib/minesweeper'
 import './App.css';
 
 
-function buildBoard(props, event) {
-  console.log(props, event);
+function buildBoard(instance) {
+  instance.setState({
+    ...board(9,9,1),
+  })
 }
 
 export default class App extends Component {
   
   state = {
-    ...board(100,100,10),
+    ...board(9,9,1),
   };
 
   render() {
