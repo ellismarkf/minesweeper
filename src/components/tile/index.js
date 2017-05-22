@@ -1,5 +1,5 @@
 import { linkEvent } from 'inferno';
-import { iterativeSweep } from '../../lib/minesweeper';
+import { iterativeSweep, swept } from '../../lib/minesweeper';
 
 const tileContent = {
   0: '',
@@ -20,6 +20,18 @@ function generateContent(value, threats) {
   return value === 2 && threats > 0 ? threats : tileContent[value];
 };
 
+function sweptTileHasMinesNearby(value, threats) {
+  return ((value & swept) && (threats > 0));
+}
+
+function generateClassList(value, threats) {
+  let classList = `${tileStyle[value]}`;
+  if (sweptTileHasMinesNearby(value, threats)) {
+    classList = `${classList} m${threats}`;
+  };
+  return classList;
+}
+
 function handleClick(props) {
   const { pos, context: { data: context }} = props;
   const newTiles = iterativeSweep(pos, context.state.tiles, context.state.threats, context.state.cols);
@@ -36,7 +48,7 @@ export default function Tile(props) {
   const { value, threats } = props;
   return (
     <div
-      className={`${tileStyle[value]} ${threats > 0 ? 'm' + threats  : ''}`}
+      className={generateClassList(value, threats)}
       onClick={linkEvent(props, handleClick)}
       noNormalize
     >

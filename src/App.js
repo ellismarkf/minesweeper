@@ -8,14 +8,14 @@ import './App.css';
 
 function buildBoard(instance) {
   instance.setState({
-    ...board(9,9,1),
+    ...board(9,9,10),
   })
 }
 
 export default class App extends Component {
   
   state = {
-    ...board(9,9,1),
+    ...board(9,9,10),
   };
 
   render() {
