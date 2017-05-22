@@ -143,18 +143,22 @@ export function iterativeSweep(pos, tiles, threats, cols) {
 };
 
 export function safe(tiles) {
-  return tiles.reduce( function(safe, tile) {
-    return safe && (
-      !(tile & swept) || ((tile & swept) && !(tile & hasMine))
-    );
+  let safe = true;
+  for(let i = 0; i < tiles.length; i++) {
+    if ((tiles[i] & swept) && (tiles[i] & hasMine)) {
+      safe = false;
+      break;
+    }
   }
-  , true)
-};
+  return safe;
+}
 
 export function revealMines(tiles) {
-  return tiles.map( function(tile) {
-    return tile & hasMine ? tile | swept : tile;
-  });
+  for(let i = 0; i < tiles.length; i++) {
+    if (!(tiles[i] & hasMine)) continue;
+    tiles[i] |= swept;
+  };
+  return tiles;
 };
 
 export function board(rows = 9, cols = 9, mines = 10) {

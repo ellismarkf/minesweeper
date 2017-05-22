@@ -171,6 +171,36 @@ describe('safe()', function() {
   });
 });
 
+describe('revealMines()', function() {
+  it('should reveal all unswept mine positions', function() {
+    var t = [
+      0, 0, 0, 0, 0, 0, 0, 0, 1,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 0, 0, 0,
+      3, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0,
+      0, 0, 0, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
+    var expected = [
+      0, 0, 0, 0, 0, 0, 0, 0, 3,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 3, 0, 0, 0,
+      3, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 3, 0,
+      0, 0, 0, 3, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    var updatedBoard = minesweeper.revealMines(t);
+    expect(updatedBoard).toEqual(expected);
+  });
+});
+
 describe('iterativeSweep()', function() {
   it('should return a new arry of tiles after iteratively sweeping perimeters', function() {
     var t = minesweeper.tiles();
