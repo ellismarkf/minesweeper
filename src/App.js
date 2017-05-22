@@ -1,67 +1,20 @@
 import { version, linkEvent } from 'inferno';
 import Component from 'inferno-component';
 import Logo from './logo';
-import Minesweeper from './components/Minesweeper';
-import { board, iterativeSweep, playing, editing, active, won, lost } from '../lib/minesweeper'
+import Minesweeper from './components/minesweeper';
+import { board } from './lib/minesweeper'
 import './App.css';
 
-const STATE = {
-  ...board(),
-}
 
 function buildBoard(props, event) {
-  return 'hello';
+  console.log(props, event);
 }
 
-function App2(props) {
-  return (
-    <div className="App">
-      <div className="App-header">
-        <Logo width="80" height="80" />
-        <h2>{`Welcome to Inferno ${version}`}</h2>
-      </div>
-      <p className="App-intro">
-        To get started, edit <code>src/App.js</code> and save to reload.
-      </p>
-      <button onClick={linkEvent(props, buildBoard)}></button>
-      <Minesweeper
-        {...this.state}
-        onTileClick={this.sweep}
-      />
-    </div>
-  )
-}
-
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      rows: 9,
-      cols: 9,
-      tiles: [],
-      threats: [],
-    }
-  }
-
-  buildBoard = (instance, event) => {
-    const { rows, cols } = instance.state;
-    this.setState((prev) => {
-      const newState = {
-        ...prev,
-        ...board(rows, cols),
-      };
-      return newState;
-    });
-  }
+export default class App extends Component {
   
-  sweep = tile => {
-    const { tiles, threats, cols } = this.state;
-    const newTiles = iterativeSweep(tile, tiles, threats, cols)
-    console.log('sweep: ', tile);
-    this.setState({
-      tiles: newTiles,
-    });
-  }
+  state = {
+    ...board(100,100,10),
+  };
 
   render() {
     return (
@@ -73,14 +26,12 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={(e) => this.buildBoard(this, e)}></button>
+        <button onClick={linkEvent(this, buildBoard)}></button>
         <Minesweeper
           {...this.state}
-          onTileClick={this.sweep}
+          context={ linkEvent(this)}
         />
       </div>
     );
   }
-}
-
-export default App;
+};
