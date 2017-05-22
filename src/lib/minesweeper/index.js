@@ -1,13 +1,16 @@
-export const partition = (size) =>
-  new ArrayBuffer(size);
+export function partition(size) {
+  return new ArrayBuffer(size);
+};
 
-export const tiles = (rows = 9, cols = 9) =>
-  new Uint8ClampedArray(partition(rows * cols))
+export function tiles(rows = 9, cols = 9) {
+  return new Uint8ClampedArray(partition(rows * cols));
+};
 
-export const addMines = (tiles, mines) =>
-  new Uint8ClampedArray(partition(tiles.length))
+export function addMines(tiles, mines) {
+  return new Uint8ClampedArray(partition(tiles.length))
   .fill(1, 0, mines)
-  .sort(() => Math.random() - 0.5)
+  .sort(() => Math.random() - 0.5);
+};
 
 export const hasMine = 1 << 0;
 export const swept   = 1 << 1;
@@ -23,7 +26,7 @@ export const lost    = 1 << 2;
 export const PERIMETER = new Int16Array(8);
 export const SECONDARY_PERIMETER = new Int16Array(8);
 
-export const getPerimeter = (tileIndex, cols) => {
+export function getPerimeter(tileIndex, cols) {
   PERIMETER[0] = tileIndex - cols;        // N
   PERIMETER[1] = tileIndex - (cols + 1);  // NW
   PERIMETER[2] = tileIndex - 1;           // W
@@ -33,36 +36,52 @@ export const getPerimeter = (tileIndex, cols) => {
   PERIMETER[6] = tileIndex + 1;           // E
   PERIMETER[7] = tileIndex - (cols - 1);  // NE
   return PERIMETER;
-}
+};
 
-export const invalidN = (tileIndex, tileCount, cols, neighbor) =>
-  neighbor < 0;
-export const invalidS = (tileIndex, tileCount, cols, neighbor) =>
-  neighbor >= tileCount;
-export const invalidE = (tileIndex, tileCount, cols, neighbor) =>
-  ((tileIndex + 1) % cols === 0) && (
+export function invalidN(tileIndex, tileCount, cols, neighbor) {
+  return neighbor < 0;
+};
+export function invalidS(tileIndex, tileCount, cols, neighbor) {
+  return neighbor >= tileCount;
+};
+export function invalidE(tileIndex, tileCount, cols, neighbor) {
+  return ((tileIndex + 1) % cols === 0) && (
     (neighbor === (tileIndex + 1)) ||
     (neighbor === (tileIndex - (cols - 1))) ||
     (neighbor === (tileIndex + (cols + 1)))
   );
-export const invalidW = (tileIndex, tileCount, cols, neighbor) =>
-  (tileIndex % cols === 0) && (
+};
+export function invalidW(tileIndex, tileCount, cols, neighbor) {
+  return (tileIndex % cols === 0) && (
     neighbor === (tileIndex - 1) ||
     neighbor === (tileIndex + (cols - 1)) ||
     neighbor === (tileIndex - (cols + 1))
   );
-export const invalidNE = (tileIndex, tileCount, cols, neighbor) =>
-  invalidN(tileIndex, tileCount, cols, neighbor) ||
-  invalidE(tileIndex, tileCount, cols, neighbor);
-export const invalidNW = (tileIndex, tileCount, cols, neighbor) =>
-  invalidN(tileIndex, tileCount, cols, neighbor) ||
-  invalidW(tileIndex, tileCount ,cols, neighbor);
-export const invalidSE = (tileIndex, tileCount, cols, neighbor) =>
-  invalidS(tileIndex, tileCount, cols ,neighbor) ||
-  invalidE(tileIndex, tileCount ,cols, neighbor);
-export const invalidSW = (tileIndex, tileCount, cols, neighbor) =>
-  invalidS(tileIndex, tileCount, cols, neighbor) ||
-  invalidW(tileIndex, tileCount, cols, neighbor);
+};
+export function invalidNE(tileIndex, tileCount, cols, neighbor) {
+  return (
+    invalidN(tileIndex, tileCount, cols, neighbor) ||
+    invalidE(tileIndex, tileCount, cols, neighbor)
+  );
+};
+export function invalidNW(tileIndex, tileCount, cols, neighbor) {
+  return (
+    invalidN(tileIndex, tileCount, cols, neighbor) ||
+    invalidW(tileIndex, tileCount ,cols, neighbor)
+  );
+};
+export function invalidSE(tileIndex, tileCount, cols, neighbor) {
+  return (
+    invalidS(tileIndex, tileCount, cols ,neighbor) ||
+    invalidE(tileIndex, tileCount ,cols, neighbor)
+  );
+};
+export function invalidSW(tileIndex, tileCount, cols, neighbor) {
+  return (
+    invalidS(tileIndex, tileCount, cols, neighbor) ||
+    invalidW(tileIndex, tileCount, cols, neighbor)
+  );
+};
 
 export const INVALID_NEIGHBOR = [
   invalidN,
@@ -75,47 +94,44 @@ export const INVALID_NEIGHBOR = [
   invalidNE,
 ];
 
-export const getMineCount = (pos, tiles, cols, perimeter) => {
+export function getMineCount(pos, tiles, cols, perimeter) {
   let threatCount = 0;
-  for (let i = 0; i < perimeter.length; i++) {
+  for (var i = 0; i < perimeter.length; i++) {
     if (INVALID_NEIGHBOR[i](pos, tiles.length, cols, perimeter[i])) continue;
     if (tiles[perimeter[i]] & hasMine) threatCount += 1;
   }
   return threatCount;
-}
+};
 
-export const markThreatCounts = (tiles, cols) =>
-  tiles.map((tileValue, pos, tiles) => {
+export function markThreatCounts(tiles, cols) {
+ return tiles.map((tileValue, pos, tiles) => {
     const perimeter = getPerimeter(pos, cols);
     return getMineCount(pos, tiles, cols, perimeter);
   });
+};
 
-export const iterativeSweep = (pos, tiles, threats, cols) => {
-  const newTiles = new Uint8ClampedArray(tiles);
+export function iterativeSweep(pos, tiles, threats, cols) {
+  var newTiles = new Uint8ClampedArray(tiles);
   newTiles[pos] |= swept;
   if ((newTiles[pos] & hasMine) || (threats[pos] > 0)) {
     return newTiles;
   }
-  const next = [];
-  const ready = new Set();
-  ready.add(pos)
+  var next = [];
   next.push(pos)
 
   while (next.length !== 0) {
-    const currentPos = next.pop();
-    const valueAt = getPerimeter(currentPos, cols);
+    var currentPos = next.pop();
+    var valueAt = getPerimeter(currentPos, cols);
     if (!(newTiles[currentPos] & swept)) {
       newTiles[currentPos] |= swept;
     }
     
-    for (let i = 0; i < valueAt.length; i++) {
+    for (var i = 0; i < valueAt.length; i++) {
       if (newTiles[valueAt[i]] === undefined) continue;
       if (newTiles[valueAt[i]] & hasMine) continue;
       if (INVALID_NEIGHBOR[i](currentPos, newTiles.length, cols, valueAt[i])) continue;
       if (newTiles[valueAt[i]] & swept) continue;
-      if (ready.has(valueAt[i])) continue;
       if (threats[valueAt[i]] === 0) {
-        ready.add(valueAt[i]);
         next.push(valueAt[i]);
       }
       if (threats[valueAt[i]] > 0) {
@@ -124,21 +140,24 @@ export const iterativeSweep = (pos, tiles, threats, cols) => {
     }
   }
   return newTiles;
-}
+};
 
-export const safe = tiles =>
-  tiles.reduce( (safe, tile) =>
-    safe && (
+export function safe(tiles) {
+  return tiles.reduce( function(safe, tile) {
+    return safe && (
       !(tile & swept) || ((tile & swept) && !(tile & hasMine))
-    )
+    );
+  }
   , true)
+};
 
-export const revealMines = tiles =>
-  tiles.map( tile =>
-    tile & hasMine ? tile | swept : tile
-  )
+export function revealMines(tiles) {
+  return tiles.map( function(tile) {
+    return tile & hasMine ? tile | swept : tile;
+  });
+};
 
-export const board = (rows = 9, cols = 9, mines = 10) => {
+export function board(rows = 9, cols = 9, mines = 10) {
   const t = addMines(tiles(rows, cols), mines)
   return {
     rows,
@@ -150,4 +169,4 @@ export const board = (rows = 9, cols = 9, mines = 10) => {
     mode: 0,
     game: 0
   }
-}
+};
