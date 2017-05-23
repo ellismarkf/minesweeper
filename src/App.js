@@ -18,6 +18,16 @@ export default class App extends Component {
     ...board(9,9,10),
   };
 
+  componentDidMount() {
+    const game = document.getElementById('minesweeper');
+    console.log(game);
+    game.oncontextmenu = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
+  }
+
   render() {
     return (
       <div className="App">
