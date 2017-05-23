@@ -166,7 +166,7 @@ export function safe(tiles) {
   return safe;
 }
 
-function mineIsFlagged(value) {
+export function mineIsFlagged(value) {
   return (
     (value & hasMine) &&
     (value & flagged)
@@ -201,6 +201,36 @@ export function flagTile(pos, tiles) {
   }
   return tiles;
 }
+
+export function nonMineTilesSwept(nonMineTiles, sweptTiles) {
+  return nonMineTiles === sweptTiles;
+}
+
+export function flaggedMineCheck(mines, flaggedMines) {
+  return mines === flaggedMines;
+}
+
+export function nonMineTileSwept(value) {
+  return (
+    (value & swept) &&
+    !(value & hasMine)
+  );
+}
+
+export function gameWon(tiles, mines) {
+  let minesFlagged = 0;
+  let sweptTiles = 0;
+  let nonMineTiles = tiles.length - mines;
+  for (let i = 0; i < tiles.length; i++) {
+    if (mineIsFlagged(tiles[i])) minesFlagged +=1;
+    if (nonMineTileSwept(tiles[i])) sweptTiles += 1;
+    // if (allMinesFlagged) break;
+    // if (allNonMineTilesSwept) break;
+  }
+  const allNonMineTilesSwept = nonMineTilesSwept(nonMineTiles, sweptTiles);
+  const allMinesFlagged = flaggedMineCheck(mines, minesFlagged);
+  return allNonMineTilesSwept || allMinesFlagged;
+};
 
 export function remainingMines(tiles) {
   let mines = 0;
