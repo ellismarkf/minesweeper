@@ -1,8 +1,12 @@
-.tile {
+* {
+  box-sizing: border-box;
+}
+
+.tile, .flagged-tile, .flagged-swept-tile, .flagged-swept-mine {
   font-family: sans-serif;
   font-size: 10px;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   box-sizing: border-box;
   border-right: 1px solid #BBB;
   border-bottom: 1px solid #BBB;
@@ -16,11 +20,20 @@
   background-color: #CCC;
 }
 
-.swept-tile {
+.tile:hover,
+.flagged-tile:hover,
+.flagged-swept-mine:hover,
+.flagged-swept-tile:hover,
+.swept-tile:hover,
+.swept-mine:hover {
+  cursor: default;
+}
+
+.swept-tile, .swept-mine {
   font-family: sans-serif;
   font-size: 10px;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   box-sizing: border-box;
   border-right: 1px solid #BBB;
   border-bottom: 1px solid #BBB;
@@ -28,6 +41,13 @@
   justify-content: center;
   align-items: center;
   background-color: #CCC;
+}
+.swept-mine, .flagged-swept-tile {
+  background-color: red;
+}
+
+.flagged-swept-mine {
+  background-color: green;
 }
 
 .swept-tile.m1 {
@@ -62,25 +82,30 @@
   color: #AAA;
 }
 
-.swept-mine {
-  font-family: sans-serif;
-  font-size: 10px;
-  width: 20px;
-  height: 20px;
-  box-sizing: border-box;
-  border-right: 1px solid #BBB;
-  border-bottom: 1px solid #BBB;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-}
 
 .board {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin: 10px auto 20px;
   overflow: hidden;
   border-top: 1px solid #BBB;
   border-left: 1px solid #BBB;
+}
+
+.control-panel {
+  margin: 20px auto 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #EEE;
+  height: 40px;
+  padding: 0px 20px;
+}
+
+.game-container {
+  /*padding: 40px;*/
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
