@@ -22,6 +22,7 @@ export const editing = 1 << 1;
 export const active  = 1 << 0;
 export const won     = 1 << 1;
 export const lost    = 1 << 2;
+export const sweeping= 1 << 3;
 
 export const PERIMETER = new Int16Array(8);
 export const SECONDARY_PERIMETER = new Int16Array(8);
@@ -98,6 +99,7 @@ export function getMineCount(pos, tiles, cols, perimeter) {
   let threatCount = 0;
   for (var i = 0; i < perimeter.length; i++) {
     if (INVALID_NEIGHBOR[i](pos, tiles.length, cols, perimeter[i])) continue;
+    if (tiles[pos] & hasMine) continue;
     if (tiles[perimeter[i]] & hasMine) threatCount += 1;
   }
   return threatCount;
@@ -110,11 +112,21 @@ export function markThreatCounts(tiles, cols) {
   });
 };
 
+export function revealMines(tiles) {
+   for(let i = 0; i < tiles.length; i++) {
+    if ((tiles[i] & hasMine)) tiles[i] |= swept;
+    continue;
+  };
+  return tiles;
+};
+
 export function iterativeSweep(pos, tiles, threats, cols) {
-  var newTiles = new Uint8ClampedArray(tiles);
-  newTiles[pos] |= swept;
-  if ((newTiles[pos] & hasMine) || (threats[pos] > 0)) {
-    return newTiles;
+  tiles[pos] |= swept;
+  if (threats[pos] > 0) {
+    return tiles;
+  }
+  if ((tiles[pos] & hasMine)) {
+    return revealMines(tiles);
   }
   var next = [];
   next.push(pos)
@@ -122,24 +134,25 @@ export function iterativeSweep(pos, tiles, threats, cols) {
   while (next.length !== 0) {
     var currentPos = next.pop();
     var valueAt = getPerimeter(currentPos, cols);
-    if (!(newTiles[currentPos] & swept)) {
-      newTiles[currentPos] |= swept;
+    if (!(tiles[currentPos] & swept)) {
+      tiles[currentPos] |= swept;
     }
     
     for (var i = 0; i < valueAt.length; i++) {
-      if (newTiles[valueAt[i]] === undefined) continue;
-      if (newTiles[valueAt[i]] & hasMine) continue;
-      if (INVALID_NEIGHBOR[i](currentPos, newTiles.length, cols, valueAt[i])) continue;
-      if (newTiles[valueAt[i]] & swept) continue;
+      if (tiles[valueAt[i]] === undefined) continue;
+      if (tiles[valueAt[i]] & hasMine) continue;
+      if (INVALID_NEIGHBOR[i](currentPos, tiles.length, cols, valueAt[i])) continue;
+      if (tiles[valueAt[i]] & swept) continue;
+      if (tiles[valueAt[i]] & flagged) continue;
       if (threats[valueAt[i]] === 0) {
         next.push(valueAt[i]);
       }
       if (threats[valueAt[i]] > 0) {
-        newTiles[valueAt[i]] |= swept;
+        tiles[valueAt[i]] |= swept;
       }
     }
   }
-  return newTiles;
+  return tiles;
 };
 
 export function safe(tiles) {
@@ -153,13 +166,63 @@ export function safe(tiles) {
   return safe;
 }
 
-export function revealMines(tiles) {
-  for(let i = 0; i < tiles.length; i++) {
-    if (!(tiles[i] & hasMine)) continue;
-    tiles[i] |= swept;
-  };
+function mineIsFlagged(value) {
+  return (
+    (value & hasMine) &&
+    (value & flagged)
+  );
+}
+
+function mineIsNotFlagged(value) {
+  return (
+    (value & hasMine) &&
+    !(value & flagged)
+  );
+}
+
+export function flagTile(pos, tiles) {
+  switch (tiles[pos]) {
+    case hasMine:
+    case 0:
+      tiles[pos] |= flagged;
+      break;
+    case hasMine | flagged:
+      tiles[pos] &= hasMine;
+      break;
+    case swept | flagged:
+      tiles[pos] &= swept;
+      break;
+    case 0 | flagged:
+      tiles[pos] = 0;
+      break;
+    default:
+      tiles[pos] |= flagged;
+      break;
+  }
   return tiles;
-};
+}
+
+export function remainingMines(tiles) {
+  let mines = 0;
+  for (let i = 0; i < tiles.length; i++) {
+    if (mineIsNotFlagged(tiles[i])) mines += 1;
+    continue;
+  }
+  return mines;
+}
+
+function tileIsFlagged(value) {
+  return value & flagged;
+}
+
+export function flaggedTiles(tiles) {
+  let flaggedCount = 0;
+  for (let i = 0; i < tiles.length; i++) {
+    if (tileIsFlagged(tiles[i])) flaggedCount += 1;
+    continue;
+  }
+  return flaggedCount;
+}
 
 export function board(rows = 9, cols = 9, mines = 10) {
   const t = addMines(tiles(rows, cols), mines)

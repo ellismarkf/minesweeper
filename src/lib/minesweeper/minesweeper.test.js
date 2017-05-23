@@ -201,6 +201,47 @@ describe('revealMines()', function() {
   });
 });
 
+describe('flagTile()', function() {
+  it('should return the array of tiles with the specified tile flagged', function() {
+    var t = new Uint8ClampedArray([
+      0, 0, 0, 0, 0,
+      0, 1, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 1, 0,
+      0, 0, 0, 0, 0
+    ]);
+    var expected = new Uint8ClampedArray([
+      4, 0, 0, 0, 0,
+      0, 1, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 1, 0,
+      0, 0, 0, 0, 0
+    ]);
+    var updatedBoard = minesweeper.flagTile(0, t);
+    expect(updatedBoard).toEqual(expected);
+    expect(updatedBoard).toHaveLength(25);
+  });
+  it('should correctly flag a mined tile', function() {
+    var t = new Uint8ClampedArray([
+      0, 0, 0, 0, 0,
+      0, 1, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 1, 0,
+      0, 0, 0, 0, 0
+    ]);
+    var expected = new Uint8ClampedArray([
+      0, 0, 0, 0, 0,
+      0, 5, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 1, 0,
+      0, 0, 0, 0, 0
+    ]);
+    var updatedBoard = minesweeper.flagTile(6, t);
+    expect(updatedBoard).toEqual(expected);
+    expect(updatedBoard).toHaveLength(25);
+  });
+});
+
 describe('iterativeSweep()', function() {
   it('should return a new arry of tiles after iteratively sweeping perimeters', function() {
     var t = minesweeper.tiles();
@@ -300,5 +341,59 @@ describe('iterativeSweep()', function() {
     var updatedBoard = minesweeper.iterativeSweep(0, t, threats, 5);
     expect(updatedBoard).toHaveLength(25);
     expect(updatedBoard).toEqual(sweptBoard);
+  });
+  it('should return board with all mines swept when run on mined tile', function() {
+    var t = new Uint8ClampedArray([
+      0, 0, 0, 0, 0, 0, 0, 0, 1,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 0, 0, 0,
+      1, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0,
+      0, 0, 0, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0
+    ]);
+    var threats = minesweeper.markThreatCounts(t, 9);
+    var expected = new Uint8ClampedArray([
+      0, 0, 0, 0, 0, 0, 0, 0, 3,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 3, 0, 0, 0,
+      3, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 3, 0,
+      0, 0, 0, 3, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0
+    ]);
+    var updatedBoard = minesweeper.iterativeSweep(8, t, threats, 9);
+    expect(updatedBoard).toEqual(expected); 
+  });
+  it('should return board with all mines swept when run on mined tile after some tiles have been swept', function() {
+    var t = new Uint8ClampedArray([
+      2, 2, 1, 0, 0, 0, 0, 1, 0,
+      2, 2, 2, 2, 2, 1, 0, 0, 0,
+      2, 2, 2, 2, 2, 0, 0, 0, 0,
+      2, 2, 2, 2, 2, 1, 0, 0, 1,
+      2, 2, 2, 2, 2, 2, 0, 0, 0,
+      2, 2, 2, 2, 2, 2, 0, 0, 0,
+      2, 2, 1, 2, 2, 2, 1, 0, 0,
+      2, 2, 1, 2, 2, 2, 2, 2, 0,
+      0, 1, 0, 2, 2, 2, 2, 2, 1
+    ]);
+    var threats = minesweeper.markThreatCounts(t, 9);
+    var expected = new Uint8ClampedArray([
+      2, 2, 3, 0, 0, 0, 0, 3, 0,
+      2, 2, 2, 2, 2, 3, 0, 0, 0,
+      2, 2, 2, 2, 2, 0, 0, 0, 0,
+      2, 2, 2, 2, 2, 3, 0, 0, 3,
+      2, 2, 2, 2, 2, 2, 0, 0, 0,
+      2, 2, 2, 2, 2, 2, 0, 0, 0,
+      2, 2, 3, 2, 2, 2, 3, 0, 0,
+      2, 2, 3, 2, 2, 2, 2, 2, 0,
+      0, 3, 0, 2, 2, 2, 2, 2, 3
+    ]);
+    var updatedBoard = minesweeper.iterativeSweep(65, t, threats, 9);
+    expect(updatedBoard).toEqual(expected); 
   });
 });
