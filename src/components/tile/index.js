@@ -1,5 +1,5 @@
 import { linkEvent } from 'inferno';
-import { iterativeSweep, swept, safe, won, lost, flagTile, flagged } from '../../lib/minesweeper';
+import { iterativeSweep, swept, safe, won, lost, flagTile, flagged, gameWon } from '../../lib/minesweeper';
 
 const tileContent = {
   0: '',
@@ -50,19 +50,35 @@ function handleClick(props, event) {
   if (isRightClick(clickType)) {
     if (context.state.tiles[pos] & swept) return;
     const newTiles = flagTile(pos, context.state.tiles);
-    context.setState({
-      tiles: newTiles,
+    const wonGame = gameWon(newTiles, context.state.mines);
+    context.setState(function(prevState) {
+      return {
+        tiles: newTiles,
+        game: wonGame ? won : prevState.game,
+      }
     });
     return false;
   }
   if (context.state.tiles[pos] & flagged) return;
   const newTiles = iterativeSweep(pos, context.state.tiles, context.state.threats, context.state.cols);
-  const notMine = safe(newTiles);
-  context.setState(function(prevState) {
-    return {
+  const gameOver = !(safe(newTiles));
+  if (gameOver) {
+    context.setState({
       tiles: newTiles,
-      game: notMine ? prevState.game : lost,
-    }
+      game: lost,
+    });
+    return false;
+  };
+  const wonGame = gameWon(newTiles, context.state.mines);
+  if (wonGame) {
+    context.setState({
+      tiles: newTiles,
+      game: won,
+    });
+    return true;
+  }
+  context.setState({
+    tiles: newTiles,
   });
   return false;
 };
