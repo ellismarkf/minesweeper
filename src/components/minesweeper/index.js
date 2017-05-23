@@ -21,7 +21,7 @@ export default function Minesweeper({ tiles, threats, cols, context, game, mines
       <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
         <div>💣 {mines - flaggedTiles(tiles)}</div>
         <div>{ emotion(game) }</div>
-        <div>⏱</div>
+        <div>⏱ {'000'}</div>
       </div>
       <div style={{ width: `${(cols * 16) + 2}px`}} className='board' noNormalize hasNonKeyedChildren>
         {Board({ tiles, threats, cols, context })}
