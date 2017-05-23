@@ -397,3 +397,43 @@ describe('iterativeSweep()', function() {
     expect(updatedBoard).toEqual(expected); 
   });
 });
+
+describe('nonMineTileSwept()', function() {
+  it('return true when passed a swept, non-mined tile value', function() {
+    const testValue = minesweeper.nonMineTileSwept(2);
+    expect(testValue).toBe(true);
+  });
+});
+
+describe('gameWon', function() {
+  it('returns true when all non-mined tiles are swept', function() {
+    var t = new Uint8ClampedArray([
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 1, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 1, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2
+    ]);
+    const win = minesweeper.gameWon(t, 2);
+    expect(win).toBe(true);
+  });
+  it('returns true when all mined tiles are flagged', function() {
+    var t = new Uint8ClampedArray([
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 5, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 5, 2, 2, 2, 2, 2,
+      2, 2, 2, 0, 2, 2, 2, 2, 2
+    ]);
+    const win = minesweeper.gameWon(t, 2);
+    expect(win).toBe(true);
+  });
+});
