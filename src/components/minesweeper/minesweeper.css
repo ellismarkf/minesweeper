@@ -2,8 +2,16 @@
   box-sizing: border-box;
 }
 
+#minesweeper {
+  font-family: monospace;
+}
+
+#minesweeper:hover {
+  cursor: default;
+}
+
 .tile, .flagged-tile, .flagged-swept-tile, .flagged-swept-mine {
-  font-family: sans-serif;
+  font-family: monospace;
   font-size: 10px;
   width: 16px;
   height: 16px;
@@ -30,7 +38,7 @@
 }
 
 .swept-tile, .swept-mine {
-  font-family: sans-serif;
+  font-family: monospace;
   font-size: 10px;
   width: 16px;
   height: 16px;
@@ -99,11 +107,18 @@
   align-items: center;
   border: 1px solid #EEE;
   height: 40px;
-  padding: 0px 20px;
+  padding: 0px 5px;
+}
+
+.control-panel div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
 }
 
 .game-container {
-  /*padding: 40px;*/
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   display: flex;
   flex-direction: column;
