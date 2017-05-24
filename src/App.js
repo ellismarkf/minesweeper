@@ -1,16 +1,81 @@
-import { version, linkEvent } from 'inferno';
+import { linkEvent } from 'inferno';
 import Component from 'inferno-component';
-import Logo from './logo';
 import Minesweeper from './components/minesweeper';
-import { board } from './lib/minesweeper'
+import {
+  board,
+  lost,
+  won,
+  flagTile,
+  gameWon,
+  swept,
+  flagged,
+  iterativeSweep,
+  safe
+} from './lib/minesweeper'
 import './App.css';
 
 
-function buildBoard(instance) {
-  instance.setState({
-    ...board(9,9,10),
-  })
+
+function isRightClick(type) {
+  return type === 2;
 }
+
+function handleTileClick(instance) {
+  return function(pos, event) {
+    const { 
+      tiles,
+      game,
+      mines,
+      threats,
+      cols,
+     } = instance.state;
+    if (game & lost || game & won) return;
+    if (tiles[pos] & flagged) return;
+    if (isRightClick(event.button)) {
+      if (tiles[pos] & swept) return;
+      const newTiles = flagTile(pos, tiles);
+      const wonGame = gameWon(newTiles, mines);
+      instance.setState(function(prevState) {
+        return {
+          tiles: newTiles,
+          game: wonGame ? won : prevState.game,
+        }
+      });
+      return false;
+    }
+    const newTiles = iterativeSweep(pos, tiles, threats, cols);
+    const gameOver = !(safe(newTiles));
+    if (gameOver) {
+      instance.setState({
+        tiles: newTiles,
+        game: lost,
+      });
+      return false;
+    };
+    const wonGame = gameWon(newTiles, mines);
+    if (wonGame) {
+      instance.setState({
+        tiles: newTiles,
+        game: won,
+      });
+      return true;
+    }
+    instance.setState({
+      tiles: newTiles,
+    });
+    return false;   
+  }
+}
+
+function buildBoard(instance) {
+  return function() {
+    instance.setState(function(prevState) {
+      return {
+        ...board(prevState.rows, prevState.cols, prevState.mines),
+      }
+    });
+  };
+};
 
 export default class App extends Component {
   
@@ -28,12 +93,14 @@ export default class App extends Component {
   }
 
   render() {
+    const { data: tileClickHandler } = linkEvent(handleTileClick(this));
+    const { data: resetHandler } = linkEvent(buildBoard(this));
     return (
       <div>
-        <button onClick={linkEvent(this, buildBoard)}></button>
         <Minesweeper
           {...this.state}
-          context={ linkEvent(this)}
+          onTileClick={tileClickHandler}
+          onReset={resetHandler}
         />
       </div>
     );
