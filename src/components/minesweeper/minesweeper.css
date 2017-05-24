@@ -10,7 +10,12 @@
   cursor: default;
 }
 
-.tile, .flagged-tile, .flagged-swept-tile, .flagged-swept-mine {
+.tile,
+.swept-tile,
+.swept-mine,
+.flagged-tile,
+.flagged-swept-tile,
+.flagged-swept-mine {
   font-family: monospace;
   font-size: 10px;
   width: 16px;
@@ -38,16 +43,6 @@
 }
 
 .swept-tile, .swept-mine {
-  font-family: monospace;
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
-  box-sizing: border-box;
-  border-right: 1px solid #BBB;
-  border-bottom: 1px solid #BBB;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #CCC;
 }
 .swept-mine, .flagged-swept-tile {
