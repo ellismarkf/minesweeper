@@ -92,20 +92,23 @@ export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
     if (props.tiles) {
-      this.state = {
-        ...board(props.tiles),
-      }
+      this.state = board(
+        props.row,
+        props.cols,
+        props.mines,
+        props.tiles
+      );
     }
-    if (props.rows && props.cols) {
-      this.state = {
-        ...board(props.row, props.cols, props.mines),
-      }
+    if (props && !props.tiles) {
+      this.state = board(
+        props.rows,
+        props.cols,
+        props.mines
+      );
     }
   }
 
-  state = {
-    ...board(9,9,10),
-  };
+  state = board();
 
   componentDidMount() {
     const game = document.getElementById('minesweeper');
