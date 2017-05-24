@@ -254,15 +254,19 @@ export function flaggedTiles(tiles) {
   return flaggedCount;
 }
 
-export function board(rows = 9, cols = 9, mines = 10) {
-  const t = addMines(tiles(rows, cols), mines)
+export function board(rows = 9, cols = 9, mines = 10, layout = null) {
+  const t = addMines(tiles(rows, cols), mines);
   return {
     rows,
     cols,
     mines,
     remainingMines: mines,
-    tiles: t,
-    threats: markThreatCounts(t, cols),
+    tiles: layout === null
+      ? t
+      : layout,
+    threats: layout === null
+      ? markThreatCounts(t, cols)
+      : markThreatCounts(layout, cols),
     mode: 0,
     game: 0
   }
