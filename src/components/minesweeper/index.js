@@ -136,18 +136,3 @@ export default class Minesweeper extends Component {
     );
   }
 }
-
-/*export default function Minesweeper({ tiles, threats, cols, onTileClick, game, mines, onReset }) {
-  return (
-    <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
-      <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
-        <div>💣 {mines - flaggedTiles(tiles)}</div>
-        <div><span onClick={onReset}>{ emotion(game) }</span></div>
-        <div>⏱ {'000'}</div>
-      </div>
-      <div style={{ width: `${(cols * 16) + 2}px`}} className='board' noNormalize hasNonKeyedChildren>
-        {Board({ tiles, threats, cols, onTileClick, game })}
-      </div>
-    </div>
-  );
-}*/
