@@ -1,0 +1,48 @@
+.config-menu {
+  position: absolute;
+  width: 200px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: white;
+  z-index: -1;
+  left: 50%;
+  top: 30%;
+  opacity: 0;
+  transform: translate3d(-50%, -65%, 0);
+  transition: top 0.3s ease-out, opacity 0.3s ease-out, z-index 0.3s ease-out
+}
+
+.config-menu.open {
+  opacity: 1;
+  z-index: 1;
+  top: 25%;
+}
+
+.standard-difficulty-settings-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.standard-difficulty-settings-container span:hover {
+  cursor: pointer;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.input-container div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.config-menu input {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}

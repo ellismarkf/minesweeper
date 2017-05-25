@@ -1,6 +1,7 @@
 import { linkEvent } from 'inferno';
 import Component from 'inferno-component';
 import Board from '../board';
+import ConfigMenu from '../configMenu';
 import {
   board,
   lost,
@@ -28,6 +29,9 @@ function emotion(game) {
       return '😊';
   }
 };
+
+const closed = 1 << 0;
+const open   = 1 << 1;
 
 function isRightClick(type) {
   return type === 2;
@@ -82,33 +86,76 @@ function handleTileClick(instance) {
 
 function buildBoard(instance) {
   instance.setState(function(prevState) {
+    const gameBoard = board(prevState.rows, prevState.cols, prevState.mines);
     return {
-      ...board(prevState.rows, prevState.cols, prevState.mines),
+      ...prevState,
+      ...gameBoard,
     }
   });
 };
+
+function handleConfigClick(instance) {
+  instance.setState(function(prevState) {
+    return {
+      configMenu: prevState.configMenu & closed ? open : closed,
+    }
+  });
+}
+
+function closeConfigMenu(instance) {
+  return function() {
+    instance.setState(function(prevState) {
+      return {
+        configMenu: closed,
+      }
+    });
+  }
+}
+
+function handleConfigSubmit(instance, event) {
+  return function(rows, cols, mines) {
+    const gameBoard = board(rows, cols, mines);
+    instance.setState(function(prevState) {
+      return {
+        ...gameBoard,
+        configMenu: closed,
+      }
+    });
+  }
+}
 
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
     if (props.tiles) {
-      this.state = board(
+      const gameBoard = board(
         props.row,
         props.cols,
         props.mines,
         props.tiles
       );
+      this.state = {
+        ...gameBoard,
+        configMenuOpen: false,
+      };
     }
     if (props && !props.tiles) {
-      this.state = board(
+      const gameBoard = board(
         props.rows,
         props.cols,
         props.mines
       );
+      this.state = {
+        ...gameBoard,
+        configMenu: closed,
+      };
     }
   }
 
-  state = board();
+  state = {
+    ...board(),
+    configMenu: 0, 
+  }
 
   componentDidMount() {
     const game = document.getElementById('minesweeper');
@@ -122,6 +169,8 @@ export default class Minesweeper extends Component {
   render() {
     const { tiles, threats, cols,  game, mines } = this.state;
     const { data: onTileClick } = linkEvent(handleTileClick(this));
+    const { data: closeMenu } = linkEvent(closeConfigMenu(this));
+    const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
     return (
       <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
         <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
@@ -132,6 +181,17 @@ export default class Minesweeper extends Component {
         <div style={{ width: `${(cols * 16) + 2}px`}} className='board' noNormalize hasNonKeyedChildren>
           {Board({ tiles, threats, cols, onTileClick, game })}
         </div>
+        <div className="config-menu-panel">
+          <span onClick={linkEvent(this, handleConfigClick)}>⚙️</span>
+        </div>
+        <ConfigMenu
+          displayState={this.state.configMenu}
+          rows={this.state.rows}
+          cols={this.state.cols}
+          mines={this.state.mines}
+          closeConfigMenu={closeMenu}
+          handleConfigSubmit={updateBoard}
+        />
       </div>
     );
   }
