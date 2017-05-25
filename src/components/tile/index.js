@@ -1,11 +1,12 @@
 import { linkEvent } from 'inferno';
 import { swept, won, lost } from '../../lib/minesweeper';
+import './tile.css';
 
 const tileContent = {
   0: '',
   1: '',
   2: '',
-  3: '💣',
+  3: '💥',
   4: '🚩',
   5: '🚩',
   6: '🚩',
@@ -16,7 +17,7 @@ const gameWonTileContent = {
   0: '',
   1: '🚩',
   2: '',
-  3: '💣',
+  3: '💥',
   4: '🚩',
   5: '🚩',
   6: '🚩',
@@ -27,7 +28,7 @@ const gameOverTileContent = {
   0: '',
   1: '',
   2: '',
-  3: '💣',
+  3: '💥',
   4: '🚩',
   5: '🚩',
   6: '🚩',
