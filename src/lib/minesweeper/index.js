@@ -19,6 +19,7 @@ export const flagged = 1 << 2;
 export const playing = 1 << 0;
 export const editing = 1 << 1;
 
+export const inactive= 0;
 export const active  = 1 << 0;
 export const won     = 1 << 1;
 export const lost    = 1 << 2;
@@ -217,19 +218,28 @@ export function nonMineTileSwept(value) {
   );
 }
 
+export function nonMineTileFlagged(value) {
+  return (
+    (value & flagged) &&
+    !(value & hasMine)
+  );
+}
+
 export function gameWon(tiles, mines) {
   let minesFlagged = 0;
   let sweptTiles = 0;
+  let flaggedNonMines = 0;
   let nonMineTiles = tiles.length - mines;
   for (let i = 0; i < tiles.length; i++) {
     if (mineIsFlagged(tiles[i])) minesFlagged +=1;
     if (nonMineTileSwept(tiles[i])) sweptTiles += 1;
+    if (nonMineTileFlagged(tiles[i])) flaggedNonMines += 1;
     // if (allMinesFlagged) break;
     // if (allNonMineTilesSwept) break;
   }
   const allNonMineTilesSwept = nonMineTilesSwept(nonMineTiles, sweptTiles);
   const allMinesFlagged = flaggedMineCheck(mines, minesFlagged);
-  return allNonMineTilesSwept || allMinesFlagged;
+  return allNonMineTilesSwept || (allMinesFlagged && flaggedNonMines === 0);
 };
 
 export function remainingMines(tiles) {
@@ -268,6 +278,6 @@ export function board(rows = 9, cols = 9, mines = 10, layout = null) {
       ? markThreatCounts(t, cols)
       : markThreatCounts(layout, cols),
     mode: 0,
-    game: 0
+    game: inactive,
   }
 };
