@@ -6,6 +6,8 @@ import {
   board,
   lost,
   won,
+  active,
+  inactive,
   flagTile,
   gameWon,
   swept,
@@ -45,9 +47,14 @@ function handleTileClick(instance) {
       mines,
       threats,
       cols,
-     } = instance.state;
+    } = instance.state;
+    if (game === inactive) {
+      instance.setState({
+        game: active,
+      });
+      startStopWatch(instance);
+    }    
     if (game & lost || game & won) return;
-    if (tiles[pos] & flagged) return;
     if (isRightClick(event.button)) {
       if (tiles[pos] & swept) return;
       const newTiles = flagTile(pos, tiles);
@@ -60,20 +67,27 @@ function handleTileClick(instance) {
       });
       return false;
     }
+    if (tiles[pos] & flagged) return;
     const newTiles = iterativeSweep(pos, tiles, threats, cols);
     const gameOver = !(safe(newTiles));
     if (gameOver) {
-      instance.setState({
-        tiles: newTiles,
-        game: lost,
+      instance.setState(function(prevState) {
+        return {
+          tiles: newTiles,
+          game: lost,
+          stopwatchId: window.clearInterval(prevState.stopwatchId)
+        }
       });
       return false;
     };
     const wonGame = gameWon(newTiles, mines);
     if (wonGame) {
-      instance.setState({
-        tiles: newTiles,
-        game: won,
+      instance.setState(function(prevState) {
+        return {
+          tiles: newTiles,
+          game: won,
+          stopwatchId: window.clearInterval(prevState.stopwatchId)
+        }
       });
       return true;
     }
@@ -90,6 +104,8 @@ function buildBoard(instance) {
     return {
       ...prevState,
       ...gameBoard,
+      stopwatch: 0,
+      stopwatchId: window.clearInterval(prevState.stopwatchId),
     }
   });
 };
@@ -119,9 +135,50 @@ function handleConfigSubmit(instance, event) {
       return {
         ...gameBoard,
         configMenu: closed,
+        stopwatch: 0,
+        stopwatchId: window.clearInterval(prevState.stopwatchId),
       }
     });
   }
+}
+
+function greaterThan0(num) {
+  return num > 0;
+}
+
+function lessThan10(num) {
+  return num < 10;
+}
+
+function shouldDisplay(num) {
+  return greaterThan0(num) && lessThan10(num);
+}
+
+function Stopwatch({ seconds }) {
+  const tensValue = Math.floor(seconds / 10);
+  const hundredsValue = Math.floor(seconds / 100);
+  const ones = seconds % 10;
+  const tens = shouldDisplay(tensValue) ? tensValue : 0;
+  const hundreds = shouldDisplay(hundredsValue) ? hundredsValue : 0;
+  return (
+    <div>
+      <span>⏱&nbsp;</span>
+      <span>{hundreds}{tens}{ones}</span>
+    </div>
+  );
+}
+
+function startStopWatch(instance) {
+  const intervalId = window.setInterval(function() {
+    instance.setState(function(prevState) {
+      return {
+        stopwatch: prevState.stopwatch + 1,
+      }
+    });
+  }, 1000);
+  instance.setState({
+    stopwatchId: intervalId
+  });
 }
 
 export default class Minesweeper extends Component {
@@ -137,6 +194,8 @@ export default class Minesweeper extends Component {
       this.state = {
         ...gameBoard,
         configMenuOpen: false,
+        stopwatch: 0,
+        stopwatchId: 0,
       };
     }
     if (props && !props.tiles) {
@@ -148,13 +207,17 @@ export default class Minesweeper extends Component {
       this.state = {
         ...gameBoard,
         configMenu: closed,
+        stopwatch: 0,
+        stopwatchId: 0,
       };
     }
   }
 
   state = {
     ...board(),
-    configMenu: 0, 
+    configMenu: 0,
+    stopwatch: 0,
+    stopwatchId: 0,
   }
 
   componentDidMount() {
@@ -174,15 +237,24 @@ export default class Minesweeper extends Component {
     return (
       <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
         <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
-          <div>💣 {mines - flaggedTiles(tiles)}</div>
-          <div><span onClick={linkEvent(this, buildBoard)}>{ emotion(game) }</span></div>
-          <div>⏱ {'000'}</div>
+          <div>
+            <span>💣&nbsp;</span>
+            <span>{mines - flaggedTiles(tiles)}</span>
+          </div>
+          <div>
+            <span onClick={linkEvent(this, buildBoard)} className="game-status-icon">
+              { emotion(game) }
+            </span>
+          </div>
+          <div>
+            <Stopwatch seconds={this.state.stopwatch} />
+          </div>
         </div>
         <div style={{ width: `${(cols * 16) + 2}px`}} className='board' noNormalize hasNonKeyedChildren>
           {Board({ tiles, threats, cols, onTileClick, game })}
         </div>
         <div className="config-menu-panel">
-          <span onClick={linkEvent(this, handleConfigClick)}>⚙️</span>
+          <span onClick={linkEvent(this, handleConfigClick)} className="config-menu-icon">⚙️</span>
         </div>
         <ConfigMenu
           displayState={this.state.configMenu}

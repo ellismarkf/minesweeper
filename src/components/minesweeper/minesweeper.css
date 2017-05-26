@@ -34,7 +34,12 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 33%;
+  width: 33.33%;
+}
+
+.game-status-icon:hover,
+.config-menu-icon {
+  cursor: pointer;
 }
 
 .config-menu-panel {

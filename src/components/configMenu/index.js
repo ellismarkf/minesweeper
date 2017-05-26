@@ -82,9 +82,11 @@ export default class ConfigMenu extends Component {
               <input type="text" value={this.state.mines} onChange={linkEvent(this, handleInputChange)} name="mines" />
             </div>
           </div>
-          <input type="submit">New Game</input>
+          <div className="config-actions-container">
+            <button type="submit" className="config-submit">👌</button>
+            <button onClick={linkEvent(this, closeConfigMenu)}>❌</button>
+          </div>
         </form>
-        <button onClick={linkEvent(this, closeConfigMenu)}>Close</button>
       </div>
     );
   }
