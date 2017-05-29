@@ -16,18 +16,16 @@ import {
   iterativeSweep,
   safe,
   flaggedTiles,
-  sweeping,
 } from '../../lib/minesweeper';
 import './minesweeper.css';
 
-function emotion(game) {
+function emotion(game, sweeping) {
+  if (sweeping > 0) return "😱"
   switch (game) {
     case lost:
       return '💀';
     case won:
       return '😎';
-    case sweeping:
-      return '😱'
     default:
       return '😊';
   }
@@ -38,6 +36,27 @@ const open   = 1 << 1;
 
 function isRightClick(type) {
   return type === 2;
+}
+
+function handleMouseDown(instance, event) {
+  const { game } = instance.state;
+  if (game & active) {
+    if (isRightClick(event.button)) return;
+    instance.setState(function(prevState) {
+      return {
+        sweeping: 1,
+      }
+    });
+  }
+}
+
+function handleMouseUp(instance, event) {
+  if (isRightClick(event.button)) return;
+  instance.setState(function(prevState) {
+    return {
+      sweeping: 0,
+    }
+  });
 }
 
 function handleTileClick(instance) {
@@ -107,6 +126,8 @@ function buildBoard(instance) {
       ...gameBoard,
       stopwatch: 0,
       stopwatchId: window.clearInterval(prevState.stopwatchId),
+      configMenu: closed,
+      sweeping: 0,
     }
   });
 };
@@ -143,7 +164,6 @@ function handleConfigSubmit(instance, event) {
   }
 }
 
-
 function startStopWatch(instance) {
   const intervalId = window.setInterval(function() {
     instance.setState(function(prevState) {
@@ -155,6 +175,21 @@ function startStopWatch(instance) {
   instance.setState({
     stopwatchId: intervalId
   });
+}
+
+function preventContextMenu(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  return false;
+}
+
+function clearSweep(instance) {
+  if (instance.state.sweeping > 0) {
+    instance.setState({
+      sweeping: 0,
+    });
+  }
+  return false;
 }
 
 export default class Minesweeper extends Component {
@@ -169,9 +204,10 @@ export default class Minesweeper extends Component {
       );
       this.state = {
         ...gameBoard,
-        configMenuOpen: false,
+        configMenu: closed,
         stopwatch: 0,
         stopwatchId: 0,
+        sweeping: 0,
       };
     }
     if (props && !props.tiles) {
@@ -185,28 +221,42 @@ export default class Minesweeper extends Component {
         configMenu: closed,
         stopwatch: 0,
         stopwatchId: 0,
+        sweeping: 0,
       };
     }
   }
 
   state = {
     ...board(),
-    configMenu: 0,
+    configMenu: closed,
     stopwatch: 0,
     stopwatchId: 0,
+    sweeping: 0,
   }
 
   componentDidMount() {
+    const instance = this;
+    const body = document.getElementsByTagName('body')[0];
     const game = document.getElementById('minesweeper');
-    game.oncontextmenu = function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false;
-    };
+    // game.oncontextmenu = function(event) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   return false;
+    // };
+    // body.onmouseup = function(event) {
+    //   if (instance.state.sweeping > 0) {
+    //     instance.setState({
+    //       sweeping: 0,
+    //     });
+    //   }
+    // };
+    // game.preventContextMenu = preventContextMenu;
+    game.addEventListener('contextmenu', preventContextMenu);
+    body.addEventListener('mouseup', function() { clearSweep(instance) });
   }
 
   render() {
-    const { tiles, threats, cols,  game, mines } = this.state;
+    const { tiles, threats, cols,  game, sweeping,  mines } = this.state;
     const { data: onTileClick } = linkEvent(handleTileClick(this));
     const { data: closeMenu } = linkEvent(closeConfigMenu(this));
     const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
@@ -219,14 +269,22 @@ export default class Minesweeper extends Component {
           </div>
           <div>
             <span onClick={linkEvent(this, buildBoard)} className="game-status-icon">
-              { emotion(game) }
+              { emotion(game, sweeping) }
             </span>
           </div>
           <div>
             <Stopwatch seconds={this.state.stopwatch} />
           </div>
         </div>
-        <div style={{ width: `${(cols * 16) + 2}px`}} className='board' noNormalize hasNonKeyedChildren>
+        <div
+          style={{ width: `${(cols * 16) + 2}px`}}
+          className='board'
+          id='board'
+          noNormalize
+          hasNonKeyedChildren
+          onMouseDown={linkEvent(this, handleMouseDown)}
+          onMouseUp={linkEvent(this, handleMouseUp)}
+        >
           {Board({ tiles, threats, cols, onTileClick, game })}
         </div>
         <div className="config-menu-panel">
