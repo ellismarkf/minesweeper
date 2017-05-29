@@ -238,19 +238,6 @@ export default class Minesweeper extends Component {
     const instance = this;
     const body = document.getElementsByTagName('body')[0];
     const game = document.getElementById('minesweeper');
-    // game.oncontextmenu = function(event) {
-    //   event.preventDefault();
-    //   event.stopPropagation();
-    //   return false;
-    // };
-    // body.onmouseup = function(event) {
-    //   if (instance.state.sweeping > 0) {
-    //     instance.setState({
-    //       sweeping: 0,
-    //     });
-    //   }
-    // };
-    // game.preventContextMenu = preventContextMenu;
     game.addEventListener('contextmenu', preventContextMenu);
     body.addEventListener('mouseup', function() { clearSweep(instance) });
   }
