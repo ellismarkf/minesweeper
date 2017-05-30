@@ -71,8 +71,8 @@ function handleTileClick(instance) {
     if (game === inactive) {
       instance.setState({
         game: active,
+        stopwatch: 1,
       });
-      startStopWatch(instance);
     }    
     if (game & lost || game & won) return;
     if (isRightClick(event.button)) {
@@ -95,7 +95,7 @@ function handleTileClick(instance) {
         return {
           tiles: newTiles,
           game: lost,
-          stopwatchId: window.clearInterval(prevState.stopwatchId)
+          stopwatch: 0,
         }
       });
       return false;
@@ -106,7 +106,7 @@ function handleTileClick(instance) {
         return {
           tiles: newTiles,
           game: won,
-          stopwatchId: window.clearInterval(prevState.stopwatchId)
+          stopwatch: 0,
         }
       });
       return true;
@@ -124,8 +124,7 @@ function buildBoard(instance) {
     return {
       ...prevState,
       ...gameBoard,
-      stopwatch: 0,
-      stopwatchId: window.clearInterval(prevState.stopwatchId),
+      stopwatch: 2,
       configMenu: closed,
       sweeping: 0,
     }
@@ -157,24 +156,10 @@ function handleConfigSubmit(instance, event) {
       return {
         ...gameBoard,
         configMenu: closed,
-        stopwatch: 0,
-        stopwatchId: window.clearInterval(prevState.stopwatchId),
+        stopwatch: 2,
       }
     });
   }
-}
-
-function startStopWatch(instance) {
-  const intervalId = window.setInterval(function() {
-    instance.setState(function(prevState) {
-      return {
-        stopwatch: prevState.stopwatch + 1,
-      }
-    });
-  }, 1000);
-  instance.setState({
-    stopwatchId: intervalId
-  });
 }
 
 function preventContextMenu(event) {
@@ -206,7 +191,6 @@ export default class Minesweeper extends Component {
         ...gameBoard,
         configMenu: closed,
         stopwatch: 0,
-        stopwatchId: 0,
         sweeping: 0,
       };
     }
@@ -220,7 +204,6 @@ export default class Minesweeper extends Component {
         ...gameBoard,
         configMenu: closed,
         stopwatch: 0,
-        stopwatchId: 0,
         sweeping: 0,
       };
     }
@@ -230,7 +213,6 @@ export default class Minesweeper extends Component {
     ...board(),
     configMenu: closed,
     stopwatch: 0,
-    stopwatchId: 0,
     sweeping: 0,
   }
 
@@ -260,7 +242,7 @@ export default class Minesweeper extends Component {
             </span>
           </div>
           <div>
-            <Stopwatch seconds={this.state.stopwatch} />
+            <Stopwatch mode={this.state.stopwatch} />
           </div>
         </div>
         <div

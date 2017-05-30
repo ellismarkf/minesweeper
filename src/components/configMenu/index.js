@@ -10,7 +10,8 @@ function handleConfigSubmit(instance, event) {
   instance.props.handleConfigSubmit(rows, cols, mines);
 }
 
-function closeConfigMenu(instance) {
+function closeConfigMenu(instance, event) {
+  event.preventDefault();
   instance.props.closeConfigMenu();
 }
 
