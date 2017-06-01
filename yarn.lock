@@ -2456,6 +2456,16 @@ he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
+history@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/history/-/history-4.6.1.tgz#911cf8eb65728555a94f2b12780a0c531a14d2fd"
+  dependencies:
+    invariant "^2.2.1"
+    loose-envify "^1.2.0"
+    resolve-pathname "^2.0.0"
+    value-equal "^0.2.0"
+    warning "^3.0.0"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -2612,7 +2622,7 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@3.1.2, inferno-component@^3.0.3, inferno-component@^3.1.2:
+inferno-component@3.1.2, inferno-component@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.1.2.tgz#c31f36a93b16c7649255240271bfcd6478775449"
   dependencies:
@@ -2625,6 +2635,14 @@ inferno-component@3.2.2:
   resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.2.2.tgz#fabd6b553d83837a6d9172c41ccb24c123ce10a2"
   dependencies:
     inferno "3.2.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-component@3.3.1, inferno-component@^3.0.3:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.3.1.tgz#ddf28ff0bf195b641d77e8e8097ba488730adca5"
+  dependencies:
+    inferno "3.3.1"
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
 
@@ -2641,6 +2659,15 @@ inferno-create-element@3.2.2:
   dependencies:
     inferno "3.2.2"
     inferno-component "3.2.2"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno-create-element@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-3.3.1.tgz#0babdb85e4c11f259a6fd10886ffc58820330c48"
+  dependencies:
+    inferno "3.3.1"
+    inferno-component "3.3.1"
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
 
@@ -2669,6 +2696,19 @@ inferno-devtools@^3.1.2:
     inferno-component "3.1.2"
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
+
+inferno-router@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno-router/-/inferno-router-3.3.1.tgz#f22146418d99cd60622bbb9328856dd94e3ef097"
+  dependencies:
+    history "^4.6.1"
+    inferno "3.3.1"
+    inferno-component "3.3.1"
+    inferno-create-element "3.3.1"
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+    path-to-regexp "^1.7.0"
+    path-to-regexp-es6 "0.0.2"
 
 inferno-scripts@3.0.0:
   version "3.0.0"
@@ -2735,7 +2775,7 @@ inferno-vnode-flags@3.0.0, inferno-vnode-flags@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
 
-inferno@3.1.2, inferno@^3.0.3, inferno@^3.1.2:
+inferno@3.1.2, inferno@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.1.2.tgz#37ae33ef6ed75a05b1a4b7b4b24b99fe0a120b9e"
   dependencies:
@@ -2745,6 +2785,13 @@ inferno@3.1.2, inferno@^3.0.3, inferno@^3.1.2:
 inferno@3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.2.2.tgz#9b5ae54bc18d206acd91c84eae698ef715ebc1fa"
+  dependencies:
+    inferno-shared "3.1.1"
+    inferno-vnode-flags "^3.0.0"
+
+inferno@3.3.1, inferno@^3.0.3:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.3.1.tgz#376b7bcd065a1623c41904e42e0beb981e4552cd"
   dependencies:
     inferno-shared "3.1.1"
     inferno-vnode-flags "^3.0.0"
@@ -2790,7 +2837,7 @@ interpret@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
 
-invariant@^2.2.0, invariant@^2.2.2:
+invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -3479,7 +3526,7 @@ longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
 
-loose-envify@^1.0.0:
+loose-envify@^1.0.0, loose-envify@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -3956,6 +4003,18 @@ path-is-inside@^1.0.1:
 path-parse@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
+
+path-to-regexp-es6@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/path-to-regexp-es6/-/path-to-regexp-es6-0.0.2.tgz#80cf615ce3220a29af9fe54f8862c730d9b56e0b"
+  dependencies:
+    path-to-regexp "*"
+
+path-to-regexp@*, path-to-regexp@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.7.0.tgz#59fde0f435badacba103a84e9d3bc64e96b9937d"
+  dependencies:
+    isarray "0.0.1"
 
 path-to-regexp@0.1.7:
   version "0.1.7"
@@ -4640,6 +4699,10 @@ resolve-from@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
 
+resolve-pathname@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/resolve-pathname/-/resolve-pathname-2.1.0.tgz#e8358801b86b83b17560d4e3c382d7aef2100944"
+
 resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
@@ -5296,6 +5359,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
+value-equal@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.2.1.tgz#c220a304361fce6994dbbedaa3c7e1a1b895871d"
+
 vary@~1.1.0, vary@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
@@ -5321,6 +5388,12 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
+
+warning@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
 
 watch@~0.10.0:
   version "0.10.0"
