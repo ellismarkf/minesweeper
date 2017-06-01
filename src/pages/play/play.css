@@ -1,0 +1,10 @@
+.play-page-container {
+  margin-top: 10rem;
+}
+
+.select-difficulty-insert {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  filter: blur(5px);
+}
