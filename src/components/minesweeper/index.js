@@ -203,7 +203,7 @@ export default class Minesweeper extends Component {
       );
       this.state = {
         ...gameBoard,
-        configMenu: closed,
+        configMenu: props.configMenu || closed,
         stopwatch: 0,
         sweeping: 0,
       };
