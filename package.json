@@ -12,7 +12,8 @@
     "@types/jest": "^19.2.3",
     "inferno-devtools": "^3.1.2",
     "inferno-scripts": "3.0.0",
-    "inferno-test-utils": "^3.2.2"
+    "inferno-test-utils": "^3.2.2",
+    "serve": "^5.2.0"
   },
   "eslintConfig": {
     "extends": "inferno-app"
