@@ -131,12 +131,13 @@ function buildBoard(instance) {
   });
 };
 
-function handleConfigClick(instance) {
+function handleConfigClick(instance, event) {
   instance.setState(function(prevState) {
     return {
       configMenu: prevState.configMenu & closed ? open : closed,
     }
   });
+  event.stopPropagation();
 }
 
 function closeConfigMenu(instance) {
