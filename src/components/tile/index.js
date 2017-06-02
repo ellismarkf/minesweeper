@@ -111,7 +111,10 @@ function handleClick(props, event) {
 }
 
 export function shouldUpdate(lastProps, nextProps) {
-  return lastProps.value !== nextProps.value;
+  return (
+    lastProps.value !== nextProps.value ||
+    lastProps.game !== nextProps.game
+  );
 }
 
 export default function Tile(props) {
