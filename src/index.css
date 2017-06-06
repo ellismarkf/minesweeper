@@ -2,6 +2,10 @@ body {
   font-family: monospace;
 }
 
+h1 {
+  text-align: center;
+}
+
 .catch-all {
   margin-top: 10rem;
   height: 100%;
