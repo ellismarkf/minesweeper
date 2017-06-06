@@ -1,0 +1,48 @@
+.builder-control-panel {
+  margin: 20px auto 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #EEE;
+  height: 40px;
+  padding: 0px 5px;
+}
+
+.builder-action-panel {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.builder-action-panel button {
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  margin: 5px 10px 0px;
+  display: block;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #EEE;
+  display: flex;
+  align-items: center;
+  transition: box-shadow .6s ease, border 0.6s ease;
+  position: relative;
+  will-change: box-shadow, border;
+}
+
+.builder-action-panel button:focus {
+  outline: none;
+}
+
+.builder-action-panel button:hover {
+  cursor: pointer;
+  border-color: #DDD;
+}
+
+button.primary:hover {
+  box-shadow: 0px 1px 1px 0px green;
+}
