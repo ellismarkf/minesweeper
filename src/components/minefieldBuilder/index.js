@@ -17,6 +17,7 @@ function isRightClick(type) {
 
 function handleTileClick(instance) {
   return function(pos, event) {
+    event.stopPropagation();
     if (isRightClick(event.button)) return;
     instance.setState(function(prevState) {
       if (prevState.tiles[pos] & hasMine) {
@@ -92,7 +93,7 @@ export default class MinefieldBuilder extends Component {
   }
 
   componentDidMount() {
-    const game = document.getElementById('minesweeper');
+    const game = document.getElementById('minefield-builder');
     game.addEventListener('contextmenu', preventContextMenu);
   }
 
@@ -103,7 +104,7 @@ export default class MinefieldBuilder extends Component {
     const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
     return (
       <div>
-        <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
+        <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minefield-builder">
           <div className="builder-control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
             <div>
               <span>💣&nbsp;</span>
@@ -131,7 +132,7 @@ export default class MinefieldBuilder extends Component {
           />
         </div>
         <div className="builder-action-panel">
-          <button className="primary">
+          <button disabled={mines < 1 || mines >= tiles.length} className="primary">
             <span>💾&nbsp;</span>
             <span>Save Minefield</span>
           </button>

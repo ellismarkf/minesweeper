@@ -28,6 +28,7 @@ const difficulties = [
 export default class Play extends Component {
 
   render() {
+    console.log(this.props);
     const { gameId } = this.props.params;
     const props = difficulties[parseInt(gameId, 10)];
     return (

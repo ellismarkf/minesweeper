@@ -1,3 +1,7 @@
+#minefield-builder {
+  margin-top: 3rem;
+}
+
 .builder-control-panel {
   margin: 20px auto 10px;
   display: flex;
@@ -45,4 +49,8 @@
 
 button.primary:hover {
   box-shadow: 0px 1px 1px 0px green;
+}
+button.primary:disabled:hover {
+  cursor: not-allowed;
+  box-shadow: 0px 1px 1px 0px red;
 }
