@@ -264,6 +264,15 @@ export function flaggedTiles(tiles) {
   return flaggedCount;
 }
 
+export function emptyBoard(rows = 9, cols = 9) {
+  return {
+    rows,
+    cols,
+    mines: 0,
+    tiles: tiles(rows, cols),
+  }
+}
+
 export function board(rows = 9, cols = 9, mines = 10, layout = null) {
   const t = addMines(tiles(rows, cols), mines);
   return {
