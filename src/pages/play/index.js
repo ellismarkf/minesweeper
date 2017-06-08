@@ -26,11 +26,23 @@ const difficulties = [
 ];
 
 export default class Play extends Component {
+  componentDidMount() {
+    const { gameId } = this.props.params;
+    const id = parseInt(gameId, 10);
+    if (id < 4) return;
+    window.fetch(
+      `https://minesweeper-backend-api.herokuapp.com/minefields/${id}`
+    )
+    .then(res => res.json())
+    .then(result => {
+      console.log(result);
+    });
+  }
 
   render() {
-    console.log(this.props);
     const { gameId } = this.props.params;
-    const props = difficulties[parseInt(gameId, 10)];
+    const id = parseInt(gameId, 10);
+    const props = difficulties[id];
     return (
       <div className="play-page-container">
         <Minesweeper {...props} />
