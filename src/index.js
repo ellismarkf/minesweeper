@@ -4,6 +4,7 @@ import App from './App';
 import Home from './pages/home';
 import Play from './pages/play';
 import Build from './pages/build';
+import Browse from './pages/browse';
 import { Router, Route, IndexRoute } from 'inferno-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import './index.css';
@@ -30,6 +31,7 @@ function Routes(props) {
         <IndexRoute component={ Home } />
         <Route path="/play/:gameId" component={ Play }/>
         <Route path="/build" component={ Build } />
+        <Route path="/browse" component={ Browse } />
         <Route path="*" component={ NoMatch }/>
       </Route>
     </Router>
