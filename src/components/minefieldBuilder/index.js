@@ -87,6 +87,7 @@ function clearMines(instance, event) {
 }
 
 function postMinefield(instance, event) {
+  event.stopPropagation();
   const { rows, cols, mines, tiles, name } = instance.state;
   let finalName = name;
   if (name === DEFAULT_NAME || name === '' || name === undefined || name === null) {
