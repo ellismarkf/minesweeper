@@ -21,6 +21,13 @@ class NoMatch extends Component {
   }
 }
 
+function withRouter(history, WrappedComponent ) {
+  return function WithRouter(props) {
+    return (
+      <WrappedComponent router={history} {...props} />
+    );
+  };
+}
 
 const browserHistory = createBrowserHistory();
 
@@ -29,7 +36,7 @@ function Routes(props) {
     <Router history={props.history}>
       <Route component={ App } >
         <IndexRoute component={ Home } />
-        <Route path="/play/:gameId" component={ Play }/>
+        <Route path="/play/:gameId" component={ withRouter(props.history, Play) } />
         <Route path="/build" component={ Build } />
         <Route path="/browse" component={ Browse } />
         <Route path="*" component={ NoMatch }/>

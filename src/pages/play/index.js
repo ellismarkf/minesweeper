@@ -46,7 +46,12 @@ export default class Play extends Component {
     window.fetch(
       `https://minesweeper-backend-api.herokuapp.com/minefields/${id}`
     )
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        return this.props.router.push('/404');
+      }
+      return res.json();
+    })
     .then(result => {
       this.setState({
         rows: result.rows,
