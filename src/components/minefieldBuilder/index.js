@@ -10,6 +10,7 @@ import './minefieldBuilder.css';
 
 const closed = 1 << 0;
 const open   = 1 << 1;
+const DEFAULT_NAME = 'New Board Name';
 
 function isRightClick(type) {
   return type === 2;
@@ -85,11 +86,64 @@ function clearMines(instance, event) {
   });
 }
 
+function postMinefield(instance, event) {
+  const { rows, cols, mines, tiles, name } = instance.state;
+  let finalName = name;
+  if (name === DEFAULT_NAME || name === '' || name === undefined || name === null) {
+    finalName = `Minefield ${Date.now()}`
+  }
+  const body = JSON.stringify({
+    rows,
+    cols,
+    mines,
+    tiles,
+    name: finalName,
+  });
+  window.fetch('https://minesweeper-backend-api.herokuapp.com/minefields', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  })
+  .then(res => res.json())
+  .then(result => { console.log(result) })
+  .catch(err => { console.log(err) });
+}
+
+function activateRename(instance, event) {
+  instance.setState({
+    renaming: open,
+  });
+  instance.renameInput.focus();
+}
+
+function closeRename(instance, event) {
+  instance.setState({
+    renaming: closed,
+  });
+}
+
+function resetName(instance, event) {
+  instance.setState({
+    name: DEFAULT_NAME,
+    renaming: closed,
+  })
+}
+
+function handleInputChange(instance, event) {
+  instance.setState({
+    [event.target.name]: event.target.value,
+  });
+}
+
 export default class MinefieldBuilder extends Component {
 
   state = {
     ...emptyBoard(),
     configMenu: open,
+    renaming: closed,
+    name: DEFAULT_NAME,
   }
 
   componentDidMount() {
@@ -102,8 +156,36 @@ export default class MinefieldBuilder extends Component {
     const { data: onTileClick } = linkEvent(handleTileClick(this));
     const { data: closeMenu } = linkEvent(closeConfigMenu(this));
     const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
+    const nameLabel = this.state.name !== '' ? this.state.name : DEFAULT_NAME;
     return (
       <div>
+        <div className="rename-container">
+          {this.state.renaming === closed &&
+            <h2 onClick={linkEvent(this, activateRename)}>
+              {nameLabel} 🔧 
+            </h2>
+          }
+          {this.state.renaming === open &&
+            <div className="rename-menu">
+              <input
+                ref={ref => { this.renameInput = ref; }}
+                placeholder="New Board Name"
+                name="name"
+                autofocus
+                onInput={linkEvent(this, handleInputChange)}
+                onChange={linkEvent(this, closeRename)}
+              />
+              <span
+                onClick={linkEvent(this, closeRename)}>
+                👌
+              </span>
+              <span
+                onClick={linkEvent(this, resetName)}>
+                ❌
+              </span>
+            </div>
+          }
+        </div>
         <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minefield-builder">
           <div className="builder-control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
             <div>
@@ -132,7 +214,11 @@ export default class MinefieldBuilder extends Component {
           />
         </div>
         <div className="builder-action-panel">
-          <button disabled={mines < 1 || mines >= tiles.length} className="primary">
+          <button
+            disabled={mines < 1 || mines >= tiles.length}
+            className="primary"
+            onClick={ linkEvent(this, postMinefield) }
+          >
             <span>💾&nbsp;</span>
             <span>Save Minefield</span>
           </button>

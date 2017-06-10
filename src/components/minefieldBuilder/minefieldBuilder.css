@@ -1,5 +1,5 @@
 #minefield-builder {
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 .builder-control-panel {
@@ -53,4 +53,56 @@ button.primary:hover {
 button.primary:disabled:hover {
   cursor: not-allowed;
   box-shadow: 0px 1px 1px 0px red;
+}
+
+.rename-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.rename-container h2:hover {
+  cursor: pointer;
+}
+
+.rename-container h2 {
+  margin: 0.83em 0;
+  font-size: 1.5em;
+  padding: 6px 0px;
+}
+
+.rename-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.rename-menu input {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+  font-family: monospace;
+  padding: 8px 10px;
+  border: none;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  transition: border 0.8s ease;
+}
+
+.rename-menu input:focus {
+  border: 1px solid #EEE;
+  outline: none;
+}
+
+.rename-menu span {
+  margin-left: 10px;
+  font-size: 1.5em;
+}
+
+.rename-menu span:hover {
+  cursor: pointer;
 }
