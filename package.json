@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "express": "^4.15.3",
     "history": "^4.6.1",
     "inferno": "^3.1.2",
     "inferno-component": "^3.1.2",
@@ -22,6 +23,7 @@
     "start": "inferno-scripts start",
     "build": "inferno-scripts build",
     "test": "inferno-scripts test --env=jsdom",
-    "eject": "inferno-scripts eject"
+    "eject": "inferno-scripts eject",
+    "now-start": "node index.js"
   }
 }
