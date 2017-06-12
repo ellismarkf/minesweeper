@@ -37,7 +37,7 @@ function Routes(props) {
       <Route component={ App } >
         <IndexRoute component={ Home } />
         <Route path="/play/:gameId" component={ withRouter(props.history, Play) } />
-        <Route path="/build" component={ Build } />
+        <Route path="/build" component={ withRouter(props.history, Build) } />
         <Route path="/browse" component={ Browse } />
         <Route path="*" component={ NoMatch }/>
       </Route>
