@@ -108,7 +108,9 @@ function postMinefield(instance, event) {
     body,
   })
   .then(res => res.json())
-  .then(result => { console.log(result) })
+  .then(result => {
+    instance.props.onSaveSuccess();
+  })
   .catch(err => { console.log(err) });
 }
 

@@ -31,7 +31,7 @@ export default function GameLink({ gameId, rows, cols, mines, name }) {
   const ratio = Math.floor((rows * cols)/mines);
   const label = name ? name : difficultyName(ratio);
   return (
-    <Link to={`/play/${gameId}`}>
+    <Link to={`/play/${gameId}`} id={gameId}>
       <h1>{difficultyIcon(ratio)}</h1>
       <h3>{label}</h3>
       <StatsTable rows={rows} cols={cols} mines={mines} />
