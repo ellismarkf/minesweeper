@@ -241,7 +241,6 @@ export default class Minesweeper extends Component {
     const { data: onTileClick } = linkEvent(handleTileClick(this));
     const { data: closeMenu } = linkEvent(closeConfigMenu(this));
     const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
-    console.log(this._layout);
     return (
       <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
         <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
