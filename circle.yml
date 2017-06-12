@@ -20,7 +20,7 @@ deployment:
   production:
     branch: master
     commands:
-      - now -t ${NOW_TOKEN} && now alias
+      - now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
   dev:
     branch: staging
     commands:
