@@ -30,3 +30,8 @@
 .game-link-container a h1 {
   text-decoration: none;
 }
+
+.empty-minefield-viewer {
+  margin-top: 15em;
+  text-align: center;
+}
