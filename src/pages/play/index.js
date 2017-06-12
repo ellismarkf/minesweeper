@@ -1,5 +1,6 @@
 import Component from 'inferno-component';
 import Minesweeper from '../../components/minesweeper';
+import Loader from '../../components/loader';
 import { board } from '../../lib/minesweeper';
 import './play.css';
 
@@ -85,7 +86,7 @@ export default class Play extends Component {
     }
     if (this.state.loading) {
       return (
-        <h1>...Loading your game</h1>
+        <Loader message="...Loading your game"/>
       )
     }
     return (
