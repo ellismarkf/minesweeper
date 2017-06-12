@@ -120,10 +120,19 @@ function handleTileClick(instance) {
 
 function buildBoard(instance) {
   instance.setState(function(prevState) {
-    const gameBoard = board(prevState.rows, prevState.cols, prevState.mines);
+    const { rows, cols, mines } = prevState;
+    if (instance.props.custom > 0) {
+      return {
+        ...prevState,
+        ...board(rows, cols, mines, [...instance._layout]),
+        stopwatch: 2,
+        configMenu: closed,
+        sweeping: 0,
+      }
+    }
     return {
       ...prevState,
-      ...gameBoard,
+      ...board(rows, cols, mines),
       stopwatch: 2,
       configMenu: closed,
       sweeping: 0,
@@ -132,6 +141,7 @@ function buildBoard(instance) {
 };
 
 function handleConfigClick(instance, event) {
+  if (instance.props.custom > 0) return;
   instance.setState(function(prevState) {
     return {
       configMenu: prevState.configMenu & closed ? open : closed,
@@ -181,13 +191,14 @@ function clearSweep(instance) {
 export default class Minesweeper extends Component {
   constructor(props) {
     super(props);
-    if (props.tiles) {
+    if (props.custom > 0) {
       const gameBoard = board(
         props.row,
         props.cols,
         props.mines,
         props.tiles
       );
+      this._layout = [...props.tiles];
       this.state = {
         ...gameBoard,
         configMenu: closed,
@@ -195,7 +206,7 @@ export default class Minesweeper extends Component {
         sweeping: 0,
       };
     }
-    if (props && !props.tiles) {
+    if (props.custom < 1) {
       const gameBoard = board(
         props.rows,
         props.cols,
@@ -230,6 +241,7 @@ export default class Minesweeper extends Component {
     const { data: onTileClick } = linkEvent(handleTileClick(this));
     const { data: closeMenu } = linkEvent(closeConfigMenu(this));
     const { data: updateBoard } = linkEvent(handleConfigSubmit(this));
+    console.log(this._layout);
     return (
       <div style={{ width: `${(cols * 16) + 40}px`}} className="game-container" id="minesweeper">
         <div className="control-panel" style={{ width: `${(cols * 16) + 2}px`}}>
@@ -258,7 +270,12 @@ export default class Minesweeper extends Component {
           {Board({ tiles, threats, cols, onTileClick, game })}
         </div>
         <div className="config-menu-panel">
-          <span onClick={linkEvent(this, handleConfigClick)} className="config-menu-icon">⚙️</span>
+          <span
+            onClick={linkEvent(this, handleConfigClick)}
+            className={`${this.props.custom > 0 ? 'disabled-' : ''}config-menu-icon`}
+          >
+            ⚙️
+          </span>
         </div>
         <ConfigMenu
           displayState={this.state.configMenu}

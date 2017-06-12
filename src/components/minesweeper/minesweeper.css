@@ -38,8 +38,16 @@
 }
 
 .game-status-icon:hover,
-.config-menu-icon {
+.config-menu-icon:hover {
   cursor: pointer;
+}
+
+.disabled-config-menu-icon {
+  opacity: 0.6;
+}
+
+.disabled-config-menu-icon:hover {
+  cursor: not-allowed;
 }
 
 .config-menu-panel {
