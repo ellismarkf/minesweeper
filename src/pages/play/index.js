@@ -80,7 +80,7 @@ export default class Play extends Component {
       const props = difficulties[id];
       return (
         <div className="play-page-container">
-          <Minesweeper {...props} />
+          <Minesweeper {...props} custom={0} />
         </div>
       );
     }
@@ -91,7 +91,7 @@ export default class Play extends Component {
     }
     return (
       <div className="play-page-container">
-        <Minesweeper {...this.state} />
+        <Minesweeper {...this.state} custom={1}/>
       </div>
     );
   }
