@@ -1,4 +1,5 @@
 {
   "name": "minesweeper",
-  "alias": "mineswept"
+  "alias": "mineswept",
+  "type": "static"
 }
