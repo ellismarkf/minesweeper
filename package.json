@@ -15,7 +15,8 @@
     "inferno-devtools": "^3.1.2",
     "inferno-scripts": "3.0.0",
     "inferno-test-utils": "^3.2.2",
-    "serve": "^5.2.0"
+    "serve": "^5.2.0",
+    "vercel": "^19.1.1"
   },
   "eslintConfig": {
     "extends": "inferno-app"
@@ -25,6 +26,8 @@
     "build": "inferno-scripts build",
     "test": "inferno-scripts test --env=jsdom",
     "eject": "inferno-scripts eject",
-    "now-start": "node index.js"
+    "now-start": "node index.js",
+    "deploy": "vercel",
+    "deploy:ci": "vercel -t ${NOW_TOKEN} && vercel -t ${NOW_TOKEN} alias"
   }
 }
