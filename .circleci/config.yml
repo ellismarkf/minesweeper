@@ -5,9 +5,12 @@ jobs:
       - image: 'circleci/node:latest'
     steps:
       - checkout
-      - run: yarn
-      - run: yarn build
-      - run: yarn global add now && now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
+      - run: |
+          yarn
+          yarn build
+      - run:
+        name: Deploy with Now
+        command: ./node_modules/.bin/now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
 
 
 
