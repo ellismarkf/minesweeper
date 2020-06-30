@@ -1,25 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
+import { Home } from './pages'
 import './App.css';
+
+const NoMatch = () => (
+  <div className="catch-all">
+    <h1>4 <span role="img" aria-label="0">💣</span> 4</h1>
+    <p>You found a mine!</p>
+  </div>
+)
+
+const Build = () => <p>build</p>
+const Play = () => {
+  const { gameId } = useParams()
+  return <p>Play {gameId}</p>
+}
+const Browse = () => <p>Browse</p>
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Router>
+      <header>
+        <Link to="/"><span role="img" aria-label="Home">🏠</span> Home</Link>
       </header>
-    </div>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/play/:gameId">
+          <Play />
+        </Route>
+        <Route path="/build">
+          <Build />
+        </Route>
+        <Route path="/browse">
+          <Browse />
+        </Route>
+        <Route path="*">
+          <NoMatch />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

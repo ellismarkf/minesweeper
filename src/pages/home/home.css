@@ -1,0 +1,66 @@
+.home-page-container {
+  transition: filter 0.3s ease;
+}
+
+.home-page-container.menu-open {
+  filter: blur(5px);
+}
+
+.play-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.8)
+}
+
+.home-page-container h1 {
+  text-align: center;
+  font-size: 4rem;
+}
+
+.mode-selector-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.play-menu a {
+  text-align: center;
+}
+
+.play-menu a,
+.mode-selector-container a,
+.mode-selector-container div {
+  box-sizing: border-box;
+  padding: 30px;
+  transition: box-shadow 0.8s ease, background-color 0.8s ease;
+  text-decoration: none;
+  width: 15rem;
+  margin-right: 50px;
+}
+
+.play-menu a:last-child,
+.mode-selector-container a:last-child {
+  margin-right: 0px;
+}
+
+.play-menu a:hover,
+.mode-selector-container a:hover,
+.mode-selector-container div:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: white;
+}
+
+.play-menu a h1,
+.mode-selector-container a h1 {
+  text-decoration: none;
+}
