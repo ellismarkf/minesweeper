@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: yarn global add now
+      - run: yarn
       - run: yarn build
       - run: now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
 
