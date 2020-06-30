@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn build
-      - run: ./node_modules/.bin/now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
+      - run: yarn deploy:ci
 
 
 
