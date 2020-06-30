@@ -5,10 +5,9 @@ jobs:
       - image: 'circleci/node:latest'
     steps:
       - checkout
-      - run: yarn global add now
       - run: yarn
       - run: yarn build
-      - run: now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
+      - run: yarn global add now && now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
 
 
 
