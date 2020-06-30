@@ -1,0 +1,13 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: 'circleci/node:latest'
+    steps:
+      - checkout
+      - run: yarn global add now
+      - run: yarn build
+      - run: now -t ${NOW_TOKEN} && now -t ${NOW_TOKEN} alias
+
+
+
