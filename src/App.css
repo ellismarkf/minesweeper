@@ -4,6 +4,10 @@ body {
   font-family: 'VT323', monospace;
 }
 
+header {
+  padding: 10px 20px;
+}
+
 h1 {
   text-align: center;
 }
