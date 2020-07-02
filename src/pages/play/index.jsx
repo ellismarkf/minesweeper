@@ -33,6 +33,10 @@ const INITIAL = 0,
       LOADING = 2,
       ERROR = -1
 
+function log(event) {
+  return console.log(event)
+}
+
 export default function Play () {
   const [board, setBoard] = useState({
     rows: 9,
@@ -76,7 +80,11 @@ export default function Play () {
   }
   return (
     <div className="play-page-container">
-      <Minesweeper {...board}  />
+      <Minesweeper
+        {...board} 
+        onTileClick={log}
+        onStartClick={log}
+      />
     </div>
   )
 }
