@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
+import PlayMenu from '../../components/playMenu'
 import './home.css'
 
 const Home = () => {
@@ -11,7 +12,7 @@ const Home = () => {
   return (
     <Fragment>
       {playMenuOpen && (
-        <p>menu</p>
+        <PlayMenu onClick={togglePlayMenu} />
       )}
       <div className={`home-page-container ${playMenuClass}`}>
         <h1>Minesweeper</h1>
