@@ -16,3 +16,8 @@ table.game-stats tbody td {
 table.game-stats thead th {
   background-color: #DDD;
 }
+
+table.game-stats thead th span {
+  position: relative;
+  left: 2.5px;
+}

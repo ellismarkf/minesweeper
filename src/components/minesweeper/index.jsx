@@ -33,59 +33,44 @@ function getEmotionStatus(game, sweeping) {
 
 const closed = 1 << 0;
 const open = 1 << 1;
+const TOGGLE = 1
 
 function isRightClick(type) {
   return type === 2;
 }
 
-function buildGameBoard() { }
 function updateBoard(event) {
   event.preventDefault()
   console.log(event.target)
 }
 
-function generateBoardTiles(props, game) {
-  const { mines, cols, tiles, rows, threats } = props
-  let boardTiles = []
-  tiles.forEach((tile, index) => {
-    boardTiles.push(
-      <Tile
-        key={btoa(`${tile}-${index}`)}
-        value={tile}
-        threats={threats[index]}
-        cols={cols}
-        onMouseDown={event => {
-          if (isRightClick(event.button)) return
-        }}
-        game={game.state}
-      />
-    )
-  })
-  return boardTiles
-}
+function restartGame() { }
 
 export default function Minesweeper(props) {
   const { mines, cols, tiles, rows, threats } = props
   const [game, setGame] = useState({ state: inactive, sweeping: false })
   const [controls, setControls] = useState({ configMenu: 0 })
+
   function handleConfigClick() {
-    setControls({...controls, configMenu: controls.configMenu ^ 1 })
+    setControls({ ...controls, configMenu: controls.configMenu ^ TOGGLE })
   }
-  function toggleSweep(event) {
+
+  function toggleSweepState(event) {
     if (game.state & active) {
-      console.log('process', event.type)
       if (isRightClick(event.button)) return
       setGame({ ...game, sweeping: !game.sweeping })
     }
   }
+
   useLayoutEffect(() => {
     const boardDom = document.querySelector('#board')
     boardDom.addEventListener('contextmenu', event => {
       event.preventDefault()
       event.stopPropagation()
-      return false
+      return () => boardDom.removeEventListener('contextmenu')
     })
-  })
+  }, [])
+
   return (
     <div style={{ width: `${(cols * 16) + 40}px` }} className="game-container" id="minesweeper">
       <div className="control-panel" style={{ width: `${(cols * 16) + 2}px` }}>
@@ -94,7 +79,7 @@ export default function Minesweeper(props) {
           <span>{mines - flaggedTiles(tiles)}</span>
         </div>
         <div>
-          <span onClick={buildGameBoard} className="game-status-icon" role="img" aria-label="status">
+          <span onClick={restartGame} className="game-status-icon" role="img" aria-label="status">
             {getEmotionStatus(game.state, game.sweeping)}
           </span>
         </div>
@@ -106,10 +91,21 @@ export default function Minesweeper(props) {
         style={{ width: `${(cols * 16) + 2}px` }}
         className={`board${game.state & active ? ' active' : ''}`}
         id='board'
-        onMouseDown={toggleSweep}
-        onMouseUp={toggleSweep}
+        onMouseDown={toggleSweepState}
+        onMouseUp={toggleSweepState}
       >
-        {generateBoardTiles(props, game)}
+        {[...tiles].map((tile, index) => (
+          <Tile
+            key={btoa(`${tile}-${index}`)}
+            value={tile}
+            threats={threats[index]}
+            cols={cols}
+            onMouseDown={event => {
+              if (isRightClick(event.button)) return
+            }}
+            game={game.state}
+          />
+        ))}
       </div>
       <div className="config-menu-panel">
         <span
