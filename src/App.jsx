@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom'
-import { Home } from './pages'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Home, Play } from './pages'
 import './App.css';
 
 const NoMatch = () => (
@@ -11,17 +11,15 @@ const NoMatch = () => (
 )
 
 const Build = () => <p>build</p>
-const Play = () => {
-  const { gameId } = useParams()
-  return <p>Play {gameId}</p>
-}
 const Browse = () => <p>Browse</p>
 
 function App() {
   return (
     <Router>
       <header>
-        <Link to="/"><span role="img" aria-label="Home">🏠</span> Home</Link>
+        <Link to="/">
+          <span role="img" aria-label="Home">🏠</span> Home
+        </Link>
       </header>
       <Switch>
         <Route exact path="/">
