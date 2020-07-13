@@ -107,11 +107,12 @@ function generateClassList(value, threats, game) {
 }
 
 export default function Tile(props) {
-  const { value, threats, game, onMouseDown } = props;
+  const { value, threats, game, onMouseDown, position } = props;
   return (
     <div
       className={generateClassList(value, threats, game)}
       onMouseDown={onMouseDown}
+      data-position={position}
     >
       <span>{generateContent(value, threats, game)}</span>
     </div>

@@ -8,3 +8,59 @@
   width: 100%;
   filter: blur(5px);
 }
+
+#minesweeper {
+  font-family: monospace;
+}
+
+#minesweeper:hover {
+  cursor: default;
+}
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px auto 0px;
+  overflow: hidden;
+  border-top: 1px solid #BBB;
+  border-left: 1px solid #BBB;
+}
+
+.control-panel {
+  margin: 20px auto 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #EEE;
+  height: 40px;
+  padding: 0px 10px;
+}
+
+.config-menu-icon:hover {
+  cursor: pointer;
+}
+
+.disabled-config-menu-icon {
+  opacity: 0.6;
+}
+
+.disabled-config-menu-icon:hover {
+  cursor: not-allowed;
+}
+
+.config-menu-panel {
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  padding: 5px 7px;
+}
+
+.config-menu-panel span {
+  line-height: 15px;
+}
+.game-container {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
