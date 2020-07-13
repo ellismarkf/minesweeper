@@ -41,7 +41,7 @@ function isRightClick(type) {
 
 function updateBoard(event) {
   event.preventDefault()
-  console.log(event.target)
+  console.log([...new FormData(event.target).entries()])
 }
 
 function restartGame() { }
@@ -75,7 +75,7 @@ export default function Minesweeper(props) {
     <div style={{ width: `${(cols * 16) + 40}px` }} className="game-container" id="minesweeper">
       <div className="control-panel" style={{ width: `${(cols * 16) + 2}px` }}>
         <div>
-          <span role="img" aria-label="mine count">💣&nbsp;</span>
+          <span role="img" aria-label="mine count">💣</span>
           <span>{mines - flaggedTiles(tiles)}</span>
         </div>
         <div>
@@ -111,6 +111,8 @@ export default function Minesweeper(props) {
         <span
           onClick={handleConfigClick}
           className={`config-menu-icon`}
+          role="img"
+          aria-label="Customization Menu"
         >
           ⚙️
         </span>

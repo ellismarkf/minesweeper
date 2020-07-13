@@ -19,8 +19,8 @@ const hard = {
   mines: 99,
 }
 
-export default function ConfigMenu(props) {
-  const [inputs, setInput] = useState({ rows: 0, cols: 0, mines: 0 })
+export default function ConfigMenu({ rows = 0, cols = 0, mines = 0, open, onSubmit, onCancel }) {
+  const [inputs, setInput] = useState({ rows, cols, mines })
   function setPreset(event) {
     const { difficulty } = event.target.dataset;
     switch(difficulty) {
@@ -38,12 +38,13 @@ export default function ConfigMenu(props) {
     }
   }
   function handleInputChange(event) {
-    const { name, value } = event.target
-    setInput({ [name]: value })
+    const { name, value} = event.target
+    setInput({ ...inputs, [name]: parseInt(value || '0') })
   }
+  const shouldDisableSubmit = inputs.rows === 0 || inputs.cols === 0 || inputs.mines === 0 || inputs.mines >= (inputs.rows * inputs.cols)
   return (
-    <div className={`config-menu${props.open ? ' open': ''}`}>
-      <form onSubmit={props.onSubmit}>
+    <div className={`config-menu${open ? ' open': ''}`}>
+      <form onSubmit={onSubmit}>
         <div className="standard-difficulty-settings-container">
           <span onClick={setPreset} data-difficulty={'too_young_to_die'} role="img" aria-label="easy">😨</span>                
           <span onClick={setPreset} data-difficulty={'hurt_me_plenty'} role="img" aria-label="intermediate">😰</span>            
@@ -70,10 +71,10 @@ export default function ConfigMenu(props) {
           </div>
         </div>
         <div className="config-actions-container">
-          <button type="submit" className="config-submit">
+          <button type="submit" className="config-submit" disabled={shouldDisableSubmit}>
             <span role="img" aria-label="submit">👌</span>
           </button>
-          <button onClick={props.onCancel} type="button">
+          <button onClick={onCancel} type="button">
             <span role="img" aria-label="cancel">❌</span>
           </button>
         </div>

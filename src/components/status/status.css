@@ -1,0 +1,7 @@
+.game-status-icon {
+  width: 12px;
+}
+
+.game-status-icon:hover {
+  cursor: pointer;
+}
