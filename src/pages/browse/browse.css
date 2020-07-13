@@ -1,0 +1,37 @@
+.game-link-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.game-link-container a {
+  text-align: center;
+}
+
+.game-link-container a {
+  box-sizing: border-box;
+  padding: 30px;
+  transition: box-shadow 0.8s ease, background-color 0.8s ease;
+  text-decoration: none;
+  width: 15rem;
+  margin-right: 50px;
+}
+
+.game-link-container a:hover {
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: white;
+}
+
+.game-link-container a h1 {
+  text-decoration: none;
+}
+
+.empty-minefield-viewer {
+  margin-top: 15em;
+  text-align: center;
+}

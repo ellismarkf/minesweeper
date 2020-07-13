@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import { Home, Play } from './pages'
+import { Home, Play, Browse } from './pages'
 import './App.css';
 
 const NoMatch = () => (
@@ -11,7 +11,6 @@ const NoMatch = () => (
 )
 
 const Build = () => <p>build</p>
-const Browse = () => <p>Browse</p>
 
 function App() {
   return (
