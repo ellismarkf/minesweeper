@@ -95,12 +95,9 @@ export default function Play() {
           return router.push('/404')
         }
         const layout = await res.json()
-        setBoard({
-          rows: layout.rows,
-          cols: layout.cols,
-          mines: layout.mines,
-          tiles: layout.tiles,
-        })
+        setBoard(buildBoard(layout.rows, layout.cols, layout.mines, layout.tiles))
+        sessionStorage.setItem('backup', JSON.stringify(layout.tiles))
+        setState(READY)
       } catch (err) {
         setState(ERROR)
       }
@@ -175,7 +172,7 @@ export default function Play() {
     return false;
   }
   function reset() {
-    setBoard(buildBoard(board.rows, board.cols, board.mines))
+    setBoard(buildBoard(board.rows, board.cols, board.mines, parseInt(gameId, 10) < 4 ? null : JSON.parse(sessionStorage.getItem('backup'))))
     setGame(inactive)
     setStopwatch({ paused: true, elapsed: 0 })
   }
