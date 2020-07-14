@@ -118,3 +118,21 @@ export default function Tile(props) {
     </div>
   );
 }
+
+const builderTileContent = {
+  0: '',
+  1: '💣'
+}
+
+export function BuilderTile(props) {
+  const { value, onMouseDown, position } = props;
+  return (
+    <div
+      className="tile"
+      onMouseDown={onMouseDown}
+      data-position={parseInt(position, 10)}
+    >
+      <span>{builderTileContent[value]}</span>
+    </div>
+  )
+}

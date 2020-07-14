@@ -71,11 +71,11 @@ export default function ConfigMenu({ rows = 0, cols = 0, mines = 0, open, onSubm
           </div>
         </div>
         <div className="config-actions-container">
-          <button type="submit" className="config-submit" disabled={shouldDisableSubmit}>
-            <span role="img" aria-label="submit">👌</span>
-          </button>
           <button onClick={onCancel} type="button">
             <span role="img" aria-label="cancel">❌</span>
+          </button>
+          <button type="submit" className="config-submit" disabled={shouldDisableSubmit}>
+            <span role="img" aria-label="submit">👌</span>
           </button>
         </div>
       </form>

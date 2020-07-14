@@ -1,0 +1,93 @@
+#minefield-builder {
+  margin-top: 1rem;
+  font-family: monospace;
+}
+
+#minefield-builder .control-panel {
+  justify-content: center;
+}
+
+.builder-action-panel {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+button {
+  font-family: monospace;
+  font-size: 12px;
+  text-align: center;
+  margin: 5px 10px 0px;
+  display: block;
+  background-color: transparent;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #EEE;
+  display: flex;
+  align-items: center;
+  transition: box-shadow .6s ease, border 0.6s ease;
+  position: relative;
+  will-change: box-shadow, border;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+  border-color: #DDD;
+}
+
+button {
+  transition: box-shadow 0.6s ease;
+}
+
+button:hover {
+  box-shadow: 0px 1px 0px 0px #DDD;
+}
+
+button.primary:hover {
+  box-shadow: 0px 1px 0px 0px green;
+}
+button.primary:disabled:hover {
+  cursor: not-allowed;
+  box-shadow: 0px 1px 0px 0px red;
+}
+
+.rename-menu span:hover {
+  cursor: pointer;
+}
+
+.game-title {
+  display: block;
+  margin: 0 auto;
+  font-family: 'VT323';
+  font-size: 1.8rem;
+  outline: none;
+  border: 1px solid #EEE;
+  padding: 5px 10px 5px 40px;
+  max-width: 30ch;
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  transition: box-shadow 0.6s ease, border 0.6s ease;
+}
+
+.game-title:focus {
+  border: 1px solid #DDD;
+  box-shadow: 0px 1px 0px 0px blue;
+}
+
+.game-title:hover {
+  border: 1px solid #DDD;
+}
+
+.text-input-icon {
+  position: absolute;
+  font-size: 1.5rem;
+  top: 62px;
+  left: calc(50% - 15ch);
+}
