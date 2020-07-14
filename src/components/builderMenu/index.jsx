@@ -35,23 +35,23 @@ export default function BuilderConfigMenu({ rows = 9, cols = 9, open, onSubmit, 
     <div className={`config-menu ${open ? 'open' : ''}`}>
     <form onSubmit={onSubmit}>
       <div className="standard-difficulty-settings-container">
-        <span onClick={setDifficulty} data-difficulty={'too_young_to_die'}>😨</span>                
-        <span onClick={setDifficulty} data-difficulty={'hurt_me_plenty'}>😰</span>            
-        <span onClick={setDifficulty} data-difficulty={'nightmare'}>😱</span>            
+        <span onClick={setDifficulty} data-difficulty={'too_young_to_die'} role="img" aria-label="easy">😨</span>                
+        <span onClick={setDifficulty} data-difficulty={'hurt_me_plenty'} role="img" aria-label="intermediate">😰</span>            
+        <span onClick={setDifficulty} data-difficulty={'nightmare'} role="img" aria-label="hard">😱</span>            
       </div>
       <div className="input-container">
         <div>
-          <label htmlFor="rows" title="Rows">↕️</label>              
+          <label htmlFor="rows" title="Rows"><span role="img" aria-label="rows">↕️</span></label>              
           <input type="text" value={state.rows} onChange={handleInputChange} name="rows" />
         </div>
         <div>
-          <label htmlFor="cols" title="Columns">↔️️</label>            
+          <label htmlFor="cols" title="Columns"><span role="img" aria-label="columns">↔️️</span></label>            
           <input type="text" value={state.cols} onChange={handleInputChange} name="cols" />
         </div>
       </div>
       <div className="config-actions-container">
-        <button type="button" onClick={onCancel}><span>❌</span></button>
-        <button type="submit" className="config-submit"><span>👌</span></button>
+        <button type="button" onClick={onCancel}><span role="img" aria-label="cancel">❌</span></button>
+        <button type="submit" className="config-submit"><span role="img" aria-label="submit">👌</span></button>
       </div>
     </form>
   </div>
