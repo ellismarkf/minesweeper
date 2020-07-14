@@ -250,7 +250,7 @@ function tileIsFlagged(value) {
   return value & flagged;
 }
 
-export function flaggedTiles(tiles) {
+export function getFlaggedTileCount(tiles) {
   let flaggedCount = 0;
   for (let i = 0; i < tiles.length; i++) {
     if (tileIsFlagged(tiles[i])) flaggedCount += 1;
