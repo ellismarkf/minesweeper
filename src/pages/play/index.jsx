@@ -18,7 +18,7 @@ import {
   sweep,
   checkWin,
   checkSafe,
-  flaggedTiles,
+  getFlaggedTileCount,
 } from '../../lib/minesweeper'
 import useInterval from '../../lib/useInterval'
 import './play.css';
@@ -124,53 +124,57 @@ export default function Play() {
       }
     }
   }, [state])
-
-  function handleTileClick(event) {
-    event.stopPropagation()
-    const { position } = event.target.dataset
-    if (
-      !position ||
-      game === lost || 
-      game === won ||
-      board.tiles[position] & flagged ||
-      board.tiles[position] & swept
-    ) {
-      return game === won
-    }
-    if (game === inactive) {
-      setGame(active)
-      setStopwatch({ ...stopwatch, paused: false })
-    }
-    if (isRightClick(event.button)) {
-      if (board.tiles[position] & swept) return;
-      const newTiles = flagTile(position, board.tiles);
-      const wonGame = checkWin(newTiles, board.mines);
-      setBoard({ ...board, tiles: newTiles })
-      if (wonGame) {
-        setGame(won)
-        setStopwatch({ ...stopwatch, paused: true })
-        return true
+  function startGame() {
+    setGame(active)
+    setStopwatch({ ...stopwatch, paused: false })
+  }
+  function revealTile(position) {
+    return function handleTileClick(event) {
+      event.stopPropagation()
+      if (isRightClick(event.button)) {
+        if (game === inactive) startGame()
+        if (board.mines === getFlaggedTileCount(board.tiles)) return
+        if (board.tiles[position] & swept) return
+        const newTiles = flagTile(position, board.tiles);
+        const wonGame = checkWin(newTiles, board.mines);
+        setBoard({ ...board, tiles: newTiles })
+        if (wonGame) {
+          setGame(won)
+          setStopwatch({ ...stopwatch, paused: true })
+          return true
+        }
+        return false;
       }
+      if (
+        !position ||
+        game === lost || 
+        game === won ||
+        board.tiles[position] & flagged ||
+        board.tiles[position] & swept
+      ) {
+        return game === won
+      }
+      if (game === inactive) startGame()
+      const newTiles = sweep(position, board.tiles, board.threats, board.cols);
+      const gameOver = !(checkSafe(newTiles));
+      if (gameOver) {
+        setBoard({ ...board, tiles: newTiles })
+        setStopwatch({ ...stopwatch, paused: true  })
+        setGame(lost)
+        return false;
+      };
+      const wonGame = checkWin(newTiles, board.mines);
+      if (wonGame) {
+        setBoard({ ...board, tiles: newTiles })
+        setStopwatch({ ...stopwatch, paused: true  })
+        setGame(won)
+        return true;
+      }
+      setSweeping(true)
+      setBoard({ ...board, tiles: newTiles })
       return false;
     }
-    const newTiles = sweep(position, board.tiles, board.threats, board.cols);
-    const gameOver = !(checkSafe(newTiles));
-    if (gameOver) {
-      setBoard({ ...board, tiles: newTiles })
-      setStopwatch({ ...stopwatch, paused: true  })
-      setGame(lost)
-      return false;
-    };
-    const wonGame = checkWin(newTiles, board.mines);
-    if (wonGame) {
-      setBoard({ ...board, tiles: newTiles })
-      setStopwatch({ ...stopwatch, paused: true  })
-      setGame(won)
-      return true;
-    }
-    setSweeping(true)
-    setBoard({ ...board, tiles: newTiles })
-    return false;
+
   }
   function reset() {
     setBoard(buildBoard(board.rows, board.cols, board.mines, !isCustomGame? null : JSON.parse(sessionStorage.getItem('backup'))))
@@ -198,7 +202,7 @@ export default function Play() {
     <div className="play-page-container">
       <div style={{ width: `${(board.cols * 16) + 40}px` }} className="game-container" id="minesweeper">
         <section className="control-panel" style={{ width: `${(board.cols * 16) + 2}px` }}>
-          <MineCount count={board.mines - flaggedTiles(board.tiles)} />
+          <MineCount count={board.mines - getFlaggedTileCount(board.tiles)} />
           <Status state={game} panic={sweeping} onClick={reset} />
           <Stopwatch elapsed={stopwatch.elapsed} />
         </section>
@@ -214,7 +218,7 @@ export default function Play() {
               value={tile}
               position={index}
               threats={board.threats[index]}
-              onMouseDown={handleTileClick}
+              onMouseDown={revealTile(index)}
               game={game}
             />
           ))}
