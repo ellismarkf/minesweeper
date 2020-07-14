@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useLayoutEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { BuilderTile } from '../../components/tile'
 import MineCount from '../../components/mineCount'
@@ -6,17 +6,10 @@ import MinefieldBuilderConfigMenu from '../../components/builderMenu';
 import {
   buildEmptyBoard,
   hasMine,
-  tiles,
 } from '../../lib/minesweeper';
 import './build.css';
 
-const closed = 1 << 0;
-const open = 1 << 1;
 const DEFAULT_NAME = 'New Board Name';
-
-function isRightClick(type) {
-  return type === 2;
-}
 
 function preventContextMenu(event) {
   event.preventDefault();
@@ -44,6 +37,13 @@ export default function Build() {
     configMenu: true,
   })
   const router = useHistory()
+  useLayoutEffect(() => {
+    const boardDom = document.querySelector('#board')
+    boardDom.addEventListener('contextmenu', preventContextMenu)
+    return () => {
+      boardDom.removeEventListener('contextmenu', preventContextMenu)
+    }
+  }, [])
   function toggleConfigMenu() {
     setState(state => ({
       ...state,
@@ -100,7 +100,7 @@ export default function Build() {
   return (
     <Fragment>
       <div className="title-container">
-        <label className="text-input-icon"><span>📝</span></label>
+        <label className="text-input-icon"><span role="img" aria-label="edit">📝</span></label>
         <input placeholder="New board name" name="name" id="board-name" className="game-title" maxLength="25" autoComplete="off" spellCheck={false} />
       </div>
       <div style={{ width: `${(state.cols * 16) + 40}px` }} className="game-container" id="minefield-builder">
@@ -122,7 +122,7 @@ export default function Build() {
           ))}
         </section>
         <section className="config-menu-panel">
-          <span onClick={toggleConfigMenu} className="config-menu-icon">⚙️</span>
+          <span onClick={toggleConfigMenu} className="config-menu-icon" role="img" aria-label="customize">⚙️</span>
         </section>
         <MinefieldBuilderConfigMenu
           open={state.configMenu}
@@ -134,7 +134,7 @@ export default function Build() {
       </div>
       <div className="builder-action-panel">
         <button onClick={clearMines}>
-          <span>🗑&nbsp;</span>
+          <span role="img" aria-label="delete">🗑&nbsp;</span>
           <span>Clear Mines</span>
         </button>
         <button
@@ -142,7 +142,7 @@ export default function Build() {
           className="primary"
           onClick={submitBoard}
         >
-          <span>💾&nbsp;</span>
+          <span role="img" aria-label="save">💾&nbsp;</span>
           <span>Save Minefield</span>
         </button>
       </div>

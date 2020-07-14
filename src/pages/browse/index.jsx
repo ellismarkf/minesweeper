@@ -27,7 +27,7 @@ export default function BrowsePage() {
   if (state === READY && minefields.length === 0) {
     return (
       <div className="empty-minefield-viewer">
-        <h1>😢</h1>
+        <h1><span role="img" aria-label="sad face">😢</span></h1>
         <h2>Looks like nobody has built any custom minefields yet.</h2>
         <p><Link to="/build">Build one</Link> now for great good!</p>
       </div>

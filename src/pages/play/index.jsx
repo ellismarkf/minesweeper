@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, Fragment } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import Tile from '../../components/tile'
 import ConfigMenu from '../../components/configMenu'
@@ -84,7 +84,7 @@ export default function Play() {
   const router = useHistory()
   useEffect(() => {
     async function getBoard() {
-      if (id < 4) {
+      if (gameId < 4) {
         const { rows, cols, mines } = difficulties[gameId]
         setBoard(buildBoard(rows, cols, mines))
         setState(READY)
