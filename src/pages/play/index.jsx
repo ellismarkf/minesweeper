@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect, Fragment } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import Tile from '../../components/tile'
 import ConfigMenu from '../../components/configMenu'
@@ -70,27 +70,28 @@ export default function Play() {
     mines: 10,
     tiles: [],
   })
+  const { gameId:id } = useParams()
+  const gameId = parseInt(id, 10)
+  const isCustomGame = gameId > 3
   const [state, setState] = useState(INITIAL)
   const [game, setGame] = useState(inactive)
   const [sweeping, setSweeping] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(gameId === 3 ? true :false)
   const [stopwatch, setStopwatch] = useState({ elapsed: 0, paused: true })
-  const { gameId } = useParams()
   useInterval(() => {
     setStopwatch({ ...stopwatch, elapsed: stopwatch.elapsed + 1 })
   }, (stopwatch.paused || stopwatch.elapsed >= MAX) ? null : 1000)
   const router = useHistory()
   useEffect(() => {
     async function getBoard() {
-      const id = parseInt(gameId, 10)
       if (id < 4) {
-        const { rows, cols, mines } = difficulties[id]
+        const { rows, cols, mines } = difficulties[gameId]
         setBoard(buildBoard(rows, cols, mines))
         setState(READY)
         return
       }
       try {
-        const res = await fetch(`https://minesweeper-backend-api.herokuapp.com/minefields/${id}`)
+        const res = await fetch(`https://minesweeper-backend-api.herokuapp.com/minefields/${gameId}`)
         if (!res.ok) {
           return router.push('/404')
         }
@@ -172,7 +173,7 @@ export default function Play() {
     return false;
   }
   function reset() {
-    setBoard(buildBoard(board.rows, board.cols, board.mines, parseInt(gameId, 10) < 4 ? null : JSON.parse(sessionStorage.getItem('backup'))))
+    setBoard(buildBoard(board.rows, board.cols, board.mines, !isCustomGame? null : JSON.parse(sessionStorage.getItem('backup'))))
     setGame(inactive)
     setStopwatch({ paused: true, elapsed: 0 })
   }
@@ -218,24 +219,28 @@ export default function Play() {
             />
           ))}
         </section>
-        <section className="config-menu-panel">
-          <span
-            onClick={toggleMenu}
-            className={`config-menu-icon`}
-            role="img"
-            aria-label="Customization Menu"
-          >
-            ⚙️
-          </span>
+        <section className={`config-menu-panel${isCustomGame ? ' hidden' : ''}`}>
+          {!isCustomGame && (
+            <span
+              onClick={toggleMenu}
+              className={`config-menu-icon`}
+              role="img"
+              aria-label="Customization Menu"
+            >
+              ⚙️
+            </span>
+          )}
         </section>
-        <ConfigMenu
-          open={menuOpen}
-          rows={board.rows}
-          cols={board.cols}
-          mines={board.mines}
-          onCancel={toggleMenu}
-          onSubmit={updateBoard}
-        />
+        {!isCustomGame && (
+          <ConfigMenu
+            open={menuOpen}
+            rows={board.rows}
+            cols={board.cols}
+            mines={board.mines}
+            onCancel={toggleMenu}
+            onSubmit={updateBoard}
+          />
+        )}
       </div>
     </div>
   )

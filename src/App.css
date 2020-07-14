@@ -6,10 +6,12 @@
 
 body {
   font-family: 'VT323', monospace;
+  font-size: 13px;
 }
 
 header {
   padding: 10px 20px;
+  font-size: 1.2rem;
 }
 
 h1 {
