@@ -146,7 +146,6 @@ export default function Play() {
         return false;
       }
       if (
-        !position ||
         game === lost || 
         game === won ||
         board.tiles[position] & flagged ||
