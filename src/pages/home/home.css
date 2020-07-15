@@ -29,7 +29,7 @@
 }
 .home-page-container p {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .mode-selector-container {
@@ -66,4 +66,8 @@
 .play-menu a h1,
 .mode-selector-container a h1 {
   text-decoration: none;
+}
+
+.play-menu a h3 {
+  font-size: 1.2rem;
 }

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import StatsTable from '../statsTable';
+import './gameCard.css'
 
 function difficultyIcon(ratio) {
   if (ratio >= 8) {
@@ -37,7 +38,7 @@ export default function GameCard({rows, cols, mines, name }) {
           {difficultyIcon(ratio)}
         </span>
       </h1>
-      <h3>{label}</h3>
+      <h3 className="game-card-title">{label}</h3>
       <StatsTable rows={rows} cols={cols} mines={mines} />
     </Fragment>
   );
