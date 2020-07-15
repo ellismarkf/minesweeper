@@ -35,3 +35,11 @@
   margin-top: 15em;
   text-align: center;
 }
+
+.browse-container {
+  display: flex;
+}
+
+.browse-container form label {
+  display: block;
+}
