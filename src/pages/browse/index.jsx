@@ -52,4 +52,12 @@ export default function BrowsePage() {
       </div>
     )
   }
+  if (state === ERROR) {
+    return (
+      <div className="catch-all">
+        <h1><span role="img" aria-label="0">💣</span></h1>
+        <p>Something went wrong!</p>
+      </div>
+    )
+  }
 }
